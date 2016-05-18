@@ -1,0 +1,713 @@
+{
+	"TIFF_FORMAT_VERSION": 2,
+	"VERSION_MAJOR": "2015",
+	"VERSION_MINOR": "4",
+	"acqState": "loop",
+	"acqsPerLoop": 99999,
+	"extTrigEnable": 1,
+	"hBeams": {
+		"beamCalibratedStatus": 1,
+		"beamStatus": 100,
+		"directMode": 0,
+		"enablePowerBox": 0,
+		"flybackBlanking": 1,
+		"interlaceDecimation": 1,
+		"interlaceOffset": 0,
+		"lengthConstants": 300,
+		"powerBoxEndFrame": "_Inf_",
+		"powerBoxStartFrame": 1,
+		"powerBoxes": {
+			"rect": [0.25,0.25,0.5,0.5],
+			"powers": "_NaN_",
+			"name": "",
+			"oddLines": 1,
+			"evenLines": 1
+		},
+		"powerLimits": 100,
+		"powers": 28,
+		"pzAdjust": 1,
+		"stackEndPower": "_NaN_",
+		"stackStartPower": "_NaN_",
+		"stackUseStartPower": 0,
+		"stackUserOverrideLz": 0
+	},
+	"hChannels": {
+		"channelAdcResolution": [
+			14,
+			14
+		],
+		"channelDisplay": 1,
+		"channelInputRange": [
+			[-1,1],
+			[-1,1]
+		],
+		"channelLUT": [
+			[0,8191],
+			[0,10]
+		],
+		"channelMergeColor": [
+			"red",
+			"red"
+		],
+		"channelName": [
+			"Channel 1",
+			"Channel 2"
+		],
+		"channelOffset": [0,0],
+		"channelSave": 1,
+		"channelSubtractOffset": [1,1],
+		"channelType": [
+			"stripe",
+			"stripe"
+		],
+		"channelsActive": 1,
+		"channelsAvailable": 2,
+		"displaySettings": {
+		},
+		"loggingEnable": 1
+	},
+	"hConfigurationSaver": {
+		"cfgFilename": "D:\\Config\\SI2015\\Config_NJS.cfg",
+		"fastCfgAutoStartTf": [
+			[0],
+			[0],
+			[0],
+			[0],
+			[0],
+			[0]
+		],
+		"fastCfgAutoStartType": [
+			[
+				"focus"
+			],
+			[
+				null
+			],
+			[
+				null
+			],
+			[
+				null
+			],
+			[
+				null
+			],
+			[
+				null
+			]
+		],
+		"fastCfgCfgFilenames": [
+			[
+				"D:\\Config\\SI2015\\Config_NJS.cfg"
+			],
+			[
+				"D:\\Config\\SI2015\\Config_many_PSF.cfg"
+			],
+			[
+				"D:\\Config\\SI2015\\Config_one_PSF.cfg"
+			],
+			[
+				""
+			],
+			[
+				""
+			],
+			[
+				""
+			]
+		],
+		"usrFilename": "D:\\Config\\SI2015\\NJS.usr"
+	},
+	"hCycleManager": {
+		"cycleIdxDone": 0,
+		"cycleIdxTotal": 1,
+		"cycleIterIdxDone": 0,
+		"cycleIterIdxTotal": 0,
+		"enabled": 0
+	},
+	"hDisplay": {
+		"channelsMergeEnable": 0,
+		"channelsMergeFocusOnly": 0,
+		"displayRollingAverageFactor": 2,
+		"displayRollingAverageFactorLock": 0,
+		"enableScanfieldDisplays": 0,
+		"lineScanHistoryLength": 1000,
+		"renderer": "auto",
+		"scanfieldDisplayColumns": 5,
+		"scanfieldDisplayRows": 5,
+		"scanfieldDisplayTilingMode": "Auto",
+		"scanfieldDisplays": {
+		},
+		"selectedZs": null,
+		"showScanfieldDisplayNames": 0,
+		"volumeDisplayStyle": "3D"
+	},
+	"hFastZ": {
+		"actuatorLag": 0.0007,
+		"discardFlybackFrames": 0,
+		"enable": 0,
+		"enableFieldCurveCorr": 1,
+		"flybackTime": 0,
+		"numDiscardFlybackFrames": 0,
+		"numFramesPerVolume": null,
+		"numVolumes": 999999,
+		"positionAbsolute": 519.233015,
+		"positionTarget": 425,
+		"useArbitraryZs": 1,
+		"userZs": [175,425],
+		"volumePeriodAdjustment": 0,
+		"waveformType": "step"
+	},
+	"hIntegrationRoiManager": {
+		"enable": 0,
+		"enableDisplay": 1,
+		"integrationHistoryLength": 100,
+		"outputChannelsRoiNames": [],
+		"postProcessFcn": "scanimage.components.IntegrationRoiManager.integrationPostProcessingFcn"
+	},
+	"hLinScan": {
+		"beamClockDelay": 0,
+		"beamClockExtend": 0,
+		"bidirectional": 1,
+		"channelOffsets": 0,
+		"channels": [],
+		"channelsAdcResolution": 16,
+		"channelsAutoReadOffsets": 1,
+		"channelsAvailable": 1,
+		"channelsDataType": "int16",
+		"channelsFilter": "None",
+		"channelsInputRanges": [
+			[-0.2,0.2]
+		],
+		"channelsSubtractOffsets": 1,
+		"fillFractionSpatial": 0.7,
+		"fillFractionTemporal": 0.7,
+		"flybackTimePerFrame": 0.001,
+		"flytoTimePerScanfield": 0.001,
+		"fovCornerPoints": [
+			[-16.1,-20],
+			[16.1,-20],
+			[16.1,20],
+			[-16.1,20]
+		],
+		"linePhase": 0,
+		"logAverageFactor": 1,
+		"logFileCounter": 16,
+		"logFilePath": "D:\\NJS\\2016-05-15\\5002-L4",
+		"logFileStem": "file",
+		"logFramesPerFile": "_Inf_",
+		"logFramesPerFileLock": 0,
+		"maxSampleRate": 500000,
+		"name": "Linear",
+		"nominalFovCornerPoints": [
+			[-16.1,-20],
+			[16.1,-20],
+			[16.1,20],
+			[-16.1,20]
+		],
+		"pixelBinFactor": 4,
+		"recordScannerFeedback": 0,
+		"sampleRate": 500000,
+		"sampleRateFdbk": 125000,
+		"scanPixelTimeMaxMinRatio": 1,
+		"scanPixelTimeMean": 8e-06,
+		"scannerFrequency": "_NaN_",
+		"scannerToRefTransform": [
+			[1,0,0],
+			[0,1,0],
+			[0,0,1]
+		],
+		"scannerType": "Linear",
+		"settleTimeFraction": 0,
+		"simulated": 0,
+		"trigAcqEdge": "rising",
+		"trigAcqInTerm": "",
+		"trigNextEdge": "rising",
+		"trigNextInTerm": "",
+		"trigNextStopEnable": 0,
+		"trigStopEdge": "rising",
+		"trigStopInTerm": ""
+	},
+	"hMotionManager": {
+		"detectMotionFcn": "scanimage.components.motionCorrection.fftCorr_detectMotionFcn",
+		"enable": 0,
+		"gpuAcceleration": 0,
+		"motionHistoryLength": 1000,
+		"referenceChannel": 1,
+		"referenceImagePreprocessFcn": "scanimage.components.motionCorrection.fftCorr_preprocessFcn",
+		"referenceZ": 0,
+		"showMotionDisplay": 0
+	},
+	"hMotors": {
+		"motorDimensionConfiguration": "xyz-z",
+		"motorFastMotionThreshold": 100,
+		"motorMoveTimeout": 10,
+		"motorPosition": [-652.5,6397,-3393.2,425],
+		"motorSecondMotorZEnable": 1,
+		"motorToRefTransform": [
+			["_NaN_","_NaN_","_NaN_"],
+			["_NaN_","_NaN_","_NaN_"],
+			["_NaN_","_NaN_","_NaN_"]
+		],
+		"motorToRefTransformAbsolute": [
+			["_NaN_","_NaN_","_NaN_"],
+			["_NaN_","_NaN_","_NaN_"],
+			["_NaN_","_NaN_","_NaN_"]
+		],
+		"userDefinedPositions": {
+		}
+	},
+	"hPhotostim": {
+		"allowMultipleOutputs": 0,
+		"autoTriggerPeriod": 0,
+		"compensateMotionEnabled": 1,
+		"completedSequences": 0,
+		"logging": 0,
+		"monitoring": 0,
+		"monitoringSampleRate": 9000,
+		"nextStimulus": 1,
+		"numOutputs": 0,
+		"numSequences": "_Inf_",
+		"sequencePosition": 1,
+		"sequenceSelectedStimuli": null,
+		"status": "Offline",
+		"stimImmediately": 0,
+		"stimSelectionAssignment": null,
+		"stimSelectionDevice": "",
+		"stimSelectionTerms": null,
+		"stimSelectionTriggerTerm": null,
+		"stimTriggerTerm": 1,
+		"stimulusMode": "sequence",
+		"syncTriggerTerm": null
+	},
+	"hPmts": {
+		"bandwidths": null,
+		"gains": null,
+		"names": null,
+		"offsets": null,
+		"powersOn": null,
+		"tripped": null
+	},
+	"hResScan": {
+		"beamClockDelay": 3.5,
+		"beamClockExtend": 3.5,
+		"bidirectional": 1,
+		"channelOffsets": [0,0],
+		"channels": [],
+		"channelsAdcResolution": 14,
+		"channelsAutoReadOffsets": 0,
+		"channelsAvailable": 2,
+		"channelsDataType": "int16",
+		"channelsFilter": "Bessel",
+		"channelsInputRanges": [
+			[-1,1],
+			[-1,1]
+		],
+		"channelsSubtractOffsets": [1,1],
+		"fillFractionSpatial": 0.8910065242,
+		"fillFractionTemporal": 0.7,
+		"flybackTimePerFrame": 0.0050751085,
+		"flytoTimePerScanfield": 0.0050751085,
+		"fovCornerPoints": [
+			[-18.2695,-20],
+			[18.2695,-20],
+			[18.2695,20],
+			[-18.2695,20]
+		],
+		"keepResonantScannerOn": 0,
+		"linePhase": -2.45e-06,
+		"linePhaseMode": "Nearest Neighbor",
+		"logAverageFactor": 1,
+		"logFramesPerFile": 400,
+		"logFramesPerFileLock": 0,
+		"maxSampleRate": 80000000,
+		"name": "Resonant",
+		"nominalFovCornerPoints": [
+			[-18.2695,-20],
+			[18.2695,-20],
+			[18.2695,20],
+			[-18.2695,20]
+		],
+		"pixelBinFactor": 1,
+		"resonantLimitedFovMode": 0,
+		"sampleRate": 80000000,
+		"scanPixelTimeMaxMinRatio": 2.137931034,
+		"scanPixelTimeMean": 4.55078125e-07,
+		"scannerFrequency": 12019.44747,
+		"scannerToRefTransform": [
+			[1,0,0],
+			[0,1,0],
+			[0,0,1]
+		],
+		"scannerType": "Resonant",
+		"settleTimeFraction": 0,
+		"simulated": 0,
+		"trigAcqEdge": "rising",
+		"trigAcqInTerm": "PFI1",
+		"trigNextEdge": "rising",
+		"trigNextInTerm": "PFI1",
+		"trigNextStopEnable": 1,
+		"trigStopEdge": "rising",
+		"trigStopInTerm": "",
+		"uniformSampling": 0,
+		"useNonlinearResonantFov2VoltsCurve": 0
+	},
+	"hRoiManager": {
+		"forceSquarePixelation": 1,
+		"forceSquarePixels": 1,
+		"linePeriod": 4.159925e-05,
+		"linesPerFrame": 512,
+		"mroiEnable": 1,
+		"pixelsPerLine": 512,
+		"scanAngleMultiplierFast": 1,
+		"scanAngleMultiplierSlow": 1,
+		"scanAngleShiftFast": 0,
+		"scanAngleShiftSlow": 0,
+		"scanFramePeriod": 0.219375,
+		"scanFrameRate": 4.558404558,
+		"scanRotation": 0,
+		"scanType": "frame",
+		"scanVolumeRate": 4.558404558,
+		"scanZoomFactor": 10
+	},
+	"hStackManager": {
+		"framesPerSlice": "_Inf_",
+		"numSlices": 1,
+		"shutterCloseMinZStepSize": 0,
+		"stackReturnHome": 1,
+		"stackSlicesDone": 0,
+		"stackStartCentered": 0,
+		"stackZEndPos": "_NaN_",
+		"stackZStartPos": "_NaN_",
+		"stackZStepSize": 25,
+		"stageDependentZs": 0,
+		"zs": 425
+	},
+	"hUserFunctions": {
+		"userFunctionsCfg": [
+			[
+				{
+					"EventName": "frameAcquired",
+					"UserFcnName": "userFunctionBar",
+					"Arguments": [],
+					"Enable": 0
+				},
+				{
+					"EventName": "focusStart",
+					"UserFcnName": "userFunctionBar",
+					"Arguments": [],
+					"Enable": 0
+				},
+				{
+					"EventName": "acqModeStart",
+					"UserFcnName": "userFunctionBar",
+					"Arguments": [],
+					"Enable": 0
+				}
+			]
+		],
+		"userFunctionsOverride": {
+		},
+		"userFunctionsUsr": [
+			[
+				{
+					"EventName": "acqStart",
+					"UserFcnName": "frameTrigSaveOn",
+					"Arguments": [],
+					"Enable": 1
+				},
+				{
+					"EventName": "applicationOpen",
+					"UserFcnName": "frameTrigSaveOn",
+					"Arguments": [],
+					"Enable": 1
+				},
+				{
+					"EventName": "acqAbort",
+					"UserFcnName": "frameTrigSaveOn",
+					"Arguments": [],
+					"Enable": 1
+				},
+				{
+					"EventName": "acqDone",
+					"UserFcnName": "frameTrigSaveOn",
+					"Arguments": [],
+					"Enable": 1
+				},
+				{
+					"EventName": "applicationWillClose",
+					"UserFcnName": "frameTrigSaveOn",
+					"Arguments": [],
+					"Enable": 1
+				}
+			]
+		]
+	},
+	"hWSConnector": {
+		"enable": 0
+	},
+	"imagingSystem": "Resonant",
+	"loopAcqInterval": 5,
+	"objectiveResolution": 157.5,
+	"imagingRoiGroup": {
+		"ver": 1,
+		"classname": "scanimage.mroi.RoiGroup",
+		"name": "MROI Imaging ROI Group",
+		"rois": [
+			{
+				"ver": 1,
+				"classname": "scanimage.mroi.Roi",
+				"name": "",
+				"zs": 0,
+				"scanfields": {
+					"ver": 1,
+					"classname": "scanimage.mroi.scanfield.fields.RotatedRectangle",
+					"name": "default_name",
+					"centerXY": [-0.03129890454,4.440892099e-15],
+					"sizeXY": [3.866077308,28],
+					"rotationDegrees": 0,
+					"enable": 1,
+					"pixelResolutionXY": [64,464],
+					"pixelToRefTransform": [
+						[0.06040745794,0,-1.994541288],
+						[0,0.06034482759,-14.03017241],
+						[0,0,1]
+					],
+					"affine": [
+						[3.866077308,0,-1.964337559],
+						[0,28,-14],
+						[0,0,1]
+					]
+				},
+				"discretePlaneMode": 0
+			},
+			{
+				"ver": 1,
+				"classname": "scanimage.mroi.Roi",
+				"name": "",
+				"zs": 0,
+				"scanfields": {
+					"ver": 1,
+					"classname": "scanimage.mroi.scanfield.fields.RotatedRectangle",
+					"name": "default_name",
+					"centerXY": [7.710166067,-4.440892099e-15],
+					"sizeXY": [3.866077308,28],
+					"rotationDegrees": 0,
+					"enable": 1,
+					"pixelResolutionXY": [64,464],
+					"pixelToRefTransform": [
+						[0.06040745794,0,5.746923683],
+						[0,0.06034482759,-14.03017241],
+						[0,0,1]
+					],
+					"affine": [
+						[3.866077308,0,5.777127412],
+						[0,28,-14],
+						[0,0,1]
+					]
+				},
+				"discretePlaneMode": 0
+			},
+			{
+				"ver": 1,
+				"classname": "scanimage.mroi.Roi",
+				"name": "",
+				"zs": 0,
+				"scanfields": {
+					"ver": 1,
+					"classname": "scanimage.mroi.scanfield.fields.RotatedRectangle",
+					"name": "default_name",
+					"centerXY": [15.4114241,-4.440892099e-15],
+					"sizeXY": [3.866077308,28],
+					"rotationDegrees": 0,
+					"enable": 1,
+					"pixelResolutionXY": [64,464],
+					"pixelToRefTransform": [
+						[0.06040745794,0,13.44818172],
+						[0,0.06034482759,-14.03017241],
+						[0,0,1]
+					],
+					"affine": [
+						[3.866077308,0,13.47838545],
+						[0,28,-14],
+						[0,0,1]
+					]
+				},
+				"discretePlaneMode": 0
+			},
+			{
+				"ver": 1,
+				"classname": "scanimage.mroi.Roi",
+				"name": "",
+				"zs": 0,
+				"scanfields": {
+					"ver": 1,
+					"classname": "scanimage.mroi.scanfield.fields.RotatedRectangle",
+					"name": "default_name",
+					"centerXY": [11.57732805,4.440892099e-15],
+					"sizeXY": [3.866077308,28],
+					"rotationDegrees": 0,
+					"enable": 1,
+					"pixelResolutionXY": [64,464],
+					"pixelToRefTransform": [
+						[0.06040745794,0,9.614085663],
+						[0,0.06034482759,-14.03017241],
+						[0,0,1]
+					],
+					"affine": [
+						[3.866077308,0,9.644289392],
+						[0,28,-14],
+						[0,0,1]
+					]
+				},
+				"discretePlaneMode": 0
+			},
+			{
+				"ver": 1,
+				"classname": "scanimage.mroi.Roi",
+				"name": "",
+				"zs": 0,
+				"scanfields": {
+					"ver": 1,
+					"classname": "scanimage.mroi.scanfield.fields.RotatedRectangle",
+					"name": "default_name",
+					"centerXY": [3.843687801,4.440892099e-15],
+					"sizeXY": [3.866077308,28],
+					"rotationDegrees": 0,
+					"enable": 1,
+					"pixelResolutionXY": [64,464],
+					"pixelToRefTransform": [
+						[0.06040745794,0,1.880445418],
+						[0,0.06034482759,-14.03017241],
+						[0,0,1]
+					],
+					"affine": [
+						[3.866077308,0,1.910649147],
+						[0,28,-14],
+						[0,0,1]
+					]
+				},
+				"discretePlaneMode": 0
+			},
+			{
+				"ver": 1,
+				"classname": "scanimage.mroi.Roi",
+				"name": "",
+				"zs": 0,
+				"scanfields": {
+					"ver": 1,
+					"classname": "scanimage.mroi.scanfield.fields.RotatedRectangle",
+					"name": "default_name",
+					"centerXY": [-3.90628561,4.440892099e-15],
+					"sizeXY": [3.866077308,28],
+					"rotationDegrees": 0,
+					"enable": 1,
+					"pixelResolutionXY": [64,464],
+					"pixelToRefTransform": [
+						[0.06040745794,0,-5.869527993],
+						[0,0.06034482759,-14.03017241],
+						[0,0,1]
+					],
+					"affine": [
+						[3.866077308,0,-5.839324264],
+						[0,28,-14],
+						[0,0,1]
+					]
+				},
+				"discretePlaneMode": 0
+			},
+			{
+				"ver": 1,
+				"classname": "scanimage.mroi.Roi",
+				"name": "",
+				"zs": 0,
+				"scanfields": {
+					"ver": 1,
+					"classname": "scanimage.mroi.scanfield.fields.RotatedRectangle",
+					"name": "default_name",
+					"centerXY": [-11.67904949,4.440892099e-15],
+					"sizeXY": [3.866077308,28],
+					"rotationDegrees": 0,
+					"enable": 1,
+					"pixelResolutionXY": [64,464],
+					"pixelToRefTransform": [
+						[0.06040745794,0,-13.64229187],
+						[0,0.06034482759,-14.03017241],
+						[0,0,1]
+					],
+					"affine": [
+						[3.866077308,0,-13.61208814],
+						[0,28,-14],
+						[0,0,1]
+					]
+				},
+				"discretePlaneMode": 0
+			},
+			{
+				"ver": 1,
+				"classname": "scanimage.mroi.Roi",
+				"name": "",
+				"zs": 0,
+				"scanfields": {
+					"ver": 1,
+					"classname": "scanimage.mroi.scanfield.fields.RotatedRectangle",
+					"name": "default_name",
+					"centerXY": [-15.53661972,4.440892099e-15],
+					"sizeXY": [3.866077308,28],
+					"rotationDegrees": 0,
+					"enable": 1,
+					"pixelResolutionXY": [64,464],
+					"pixelToRefTransform": [
+						[0.06040745794,0,-17.4998621],
+						[0,0.06034482759,-14.03017241],
+						[0,0,1]
+					],
+					"affine": [
+						[3.866077308,0,-17.46965837],
+						[0,28,-14],
+						[0,0,1]
+					]
+				},
+				"discretePlaneMode": 0
+			},
+			{
+				"ver": 1,
+				"classname": "scanimage.mroi.Roi",
+				"name": "",
+				"zs": 0,
+				"scanfields": {
+					"ver": 1,
+					"classname": "scanimage.mroi.scanfield.fields.RotatedRectangle",
+					"name": "default_name",
+					"centerXY": [-7.808317,4.440892099e-15],
+					"sizeXY": [3.866077308,28],
+					"rotationDegrees": 0,
+					"enable": 1,
+					"pixelResolutionXY": [64,464],
+					"pixelToRefTransform": [
+						[0.06040745794,0,-9.771559383],
+						[0,0.06034482759,-14.03017241],
+						[0,0,1]
+					],
+					"affine": [
+						[3.866077308,0,-9.741355654],
+						[0,28,-14],
+						[0,0,1]
+					]
+				},
+				"discretePlaneMode": 0
+			}
+		]
+	},
+	"photostimRoiGroups": null,
+	"integrationRoiGroup": {
+		"ver": 1,
+		"classname": "scanimage.mroi.RoiGroup",
+		"name": "",
+		"rois": {
+			"_ArrayType_": "double",
+			"_ArraySize_": [1,0],
+			"_ArrayData_": null
+		}
+	}
+}
