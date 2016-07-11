@@ -12,7 +12,7 @@ def loadImages(path, engine=None):
         order = meta['order']
     else:
         order = False
-    data = loadTiff(path + '.tif', meta['nplanes'], meta['nrois'], meta['nlines'], order, engine=engine)
+    data = loadTiff(path + '.tif', meta['nplanes'], meta['nrois'], meta['nlines'], meta['nchannels'], order, engine=engine)
     meta = mergeMeta(meta)
     meta['shape'] = data.shape
     return meta, data
@@ -75,6 +75,11 @@ def parse(header):
              for roi in header['imagingRoiGroup']['rois']]
     meta['nrois'] = len(meta['rois'])
     meta['nlines'] = meta['rois'][0]['npixels'][1]
+
+    if type(header['hChannels']['channelSave']) == int:
+        meta['nchannels'] = 1
+    else:
+        meta['nchannels'] = len(header['hChannels']['channelSave'])
     
     meta['order'] = argsort([roi['center'][0] for roi in meta['rois']])
     meta['merge'] = check_order(meta['rois'], meta['order'])
@@ -117,11 +122,13 @@ def mergeMeta(meta):
 
 ########################################################################################################
 
-def loadTiff(path, nplanes, nrois, nlines, order=False, engine=None):
+def loadTiff(path, nplanes, nrois, nlines, nchannels, order=False, engine=None):
     #Loads raw data from Tiff and reshapes
-    data = thunder.images.fromtif(path, nplanes=nplanes, engine=engine) #17614 #34300
-    return data.map(lambda x : reshape(x, nrois, nlines, order))
-
+    data = thunder.images.fromtif(path, nplanes=nplanes, engine=engine)
+    if nchannels == 1:
+        return data.map(lambda x : reshape(x, nrois, nlines, order))
+    else:
+        return data.map(lambda x : reshape(x, nrois, nlines, order))
 
 ########################################################################################################
 
