@@ -35,10 +35,10 @@ This will create a folder `output` with the converted images.
 
 The `mesocope` package includes just two methods
 
-### load(path, engine=None)
+#### `load(path, engine=None)`
 
 Loads both data and metadata from the specified `path`. The optional `engine` can be used to load the data using a parallel backend.
 
-### convert(data, metadata)
+#### `convert(data, metadata)`
 
 Converts the given data using the provided metadata. The `data` should be a `numpy` array or a `thunder` `images` object.
