@@ -6,7 +6,7 @@ This package contains a module and command line tool to process raw data from th
 
 # install
 
-You can install using
+You can install using pip
 
 ```
 pip install mesoscope
