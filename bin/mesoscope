@@ -1,0 +1,4 @@
+#!/usr/bin/env python
+
+from mesoscope.cli import cli
+cli()

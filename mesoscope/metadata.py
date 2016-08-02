@@ -1,21 +1,31 @@
-from numpy import array, multiply
+from numpy import array, multiply, argsort
+from glob import glob
+import json
+from os.path import join
 
 def load(path):
+    """
+    Load metadata
+    """
+    if not path.endswith('json'):
+        path = join(path, '*.json')
     files = glob(path)
     if len(files) < 1:
-        raise Exception('cannot find metadata file')
+        raise Exception('cannot find metadata file at %s' % path)
     with open(files[0]) as fid:
         header = json.load(fid)
-    meta = parse_metadata(header)
+    meta = parse(header)
     if meta['merge']:
         order = meta['order']
-        meta = merge_metadata(meta)
+        meta = merge(meta)
     else:
         order = False
-    meta['shape'] = data.shape
     return meta
 
 def merge(meta):
+    """
+    Merge metadata
+    """
     center = array([x['center'] for x in meta['rois']]).mean(axis=0)
     size = array([x['size'] for x in meta['rois']]).mean(axis=0)
     size[0] = size[0]*meta['nrois']
@@ -35,6 +45,9 @@ def merge(meta):
     return meta
 
 def parse(header):
+    """
+    Parse metadata from header dictionary
+    """
     meta = {}
     
     if not header['hRoiManager']['mroiEnable']:
@@ -78,10 +91,16 @@ def parse(header):
     return meta
 
 def check_order(rois, order):
+    """
+    Check order
+    """
     diff = array([abs((rois[order[i]]['center'][0] + rois[order[i]]['size'][0]/2) 
     - (rois[order[i+1]]['center'][0] - rois[order[i+1]]['size'][0]/2)) for i in range(len(order)-1)])
     
     return diff.mean() < .02
 
 def rescale(x, fovmm):
+    """
+    Rescale volume
+    """
     return multiply(x, fovmm).tolist()

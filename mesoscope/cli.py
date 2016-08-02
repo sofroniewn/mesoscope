@@ -1,14 +1,13 @@
 import click
 
 settings = dict(help_option_names=['-h', '--help'])
-from .commands import evaluate
+from .commands import convert
 
 @click.group(options_metavar='', subcommand_metavar='<command>', context_settings=settings)
 def cli():
     """
-    Hi! This is a tool for working with neuron finding algorithm results.
-
+    This is a tool for working with data from the two-photon random access mesoscope. 
     Check out the list of commands to see what you can do.
     """
 
-cli.add_command(evaluate)
+cli.add_command(convert)
