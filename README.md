@@ -2,7 +2,7 @@
 
 > preprocessing and conversion for mesoscope data
 
-This package contains a module and command line tool to process raw data from the [twp-photon random access mesoscope](https://elifesciences.org/content/5/e14472) (2P-RAM). The raw output of the mesocope, via the ScanImage control software, is a matrix of resonant scan lines stored as TIF files. For the majority of applications, users will want to convert from this format into TIF files with 2D or 3D images that are appropriately merged and reshaped. 
+This package contains a module and command line tool to process raw data from the [two-photon random access mesoscope](https://elifesciences.org/content/5/e14472) (2P-RAM). The raw output of the mesocope, via the ScanImage control software, is a matrix of resonant scan lines stored as TIF files. For the majority of applications, users will want to convert from this format into TIF files with 2D or 3D images that are appropriately merged and reshaped. 
 
 # install
 
