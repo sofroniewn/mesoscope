@@ -17,7 +17,7 @@ pip install mesoscope
 ```python
 import mesoscope as ms
 
-data, metadata = ms.load('')
+data, metadata = ms.load('test/resources')
 converted = ms.convert(data, metadata)
 ```
 
