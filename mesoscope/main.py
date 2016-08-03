@@ -7,6 +7,7 @@ from glob import glob
 from .metadata import load as load_metadata
 from .data import load as load_data
 from .data import reshape
+from .metadata import merge
 
 def load(path, engine=None):
     """
@@ -25,4 +26,6 @@ def convert(data, metadata):
     nrois = metadata['nrois']
     nlines = metadata['nlines']
     order = metadata['order']
-    return data.map(lambda x : reshape(x, nrois, nlines, order))
+    newdata = data.map(lambda x : reshape(x, nrois, nlines, order))
+    newmetadata = merge(metadata)
+    return newdata, newmetadata

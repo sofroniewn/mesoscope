@@ -15,11 +15,6 @@ def load(path):
     with open(files[0]) as fid:
         header = json.load(fid)
     meta = parse(header)
-    if meta['merge']:
-        order = meta['order']
-        meta = merge(meta)
-    else:
-        order = False
     return meta
 
 def merge(meta):
