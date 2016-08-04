@@ -1,3 +1,3 @@
 click
-thunder
+thunder-python
 showit
