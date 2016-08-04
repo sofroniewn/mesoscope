@@ -15,7 +15,7 @@ def split(oim, nrois, nlines):
     if nrois > 1:
         ntotal = oim.shape[0]
         ngap = (ntotal - nlines*nrois)/(nrois-1)
-        return array([oim[nlines*i + ngap*i: nlines*(i + 1) + ngap*i, :] for i in range(nrois)])
+        return array([oim[int(nlines*i + ngap*i): int(nlines*(i + 1) + ngap*i), :] for i in range(nrois)])
     else:
         return oim
 
