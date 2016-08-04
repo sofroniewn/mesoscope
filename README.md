@@ -1,7 +1,7 @@
 # mesocope
 
 [![Latest Version](https://img.shields.io/pypi/v/meoscope.svg?style=flat-square)](https://pypi.python.org/pypi/mesoscope)
-[![Binder](http://mybinder.org/badge.svg)](http://mybinder.org:/repo/sofroniewn/mesoscope)
+[![Binder](https://img.shields.io/badge/launch-binder-red.svg?style=flat-square)](http://mybinder.org:/repo/sofroniewn/mesoscope)
 
 > preprocessing and conversion for mesoscope data
 
