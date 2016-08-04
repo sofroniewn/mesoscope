@@ -21,6 +21,7 @@ def merge(meta):
     """
     Merge metadata
     """
+    meta = meta.copy()
     center = array([x['center'] for x in meta['rois']]).mean(axis=0)
     size = array([x['size'] for x in meta['rois']]).mean(axis=0)
     size[0] = size[0]*meta['nrois']
