@@ -1,0 +1,47 @@
+15 min intro
+30 min tutorial
+15 min intro
+30 min tutorial
+30 min on neurofinder / spikefinder
+
+--------------
+
+start by talking about the concept of modularity, pipelines are fine, we need them, but don’t start with a pipeline, start with modules, then build pipelines 
+
+what’s the difference?
+
+a module is small, reusable, narrow in scope, easy to understand! 
+
+a pipeline is monolithic, tries to do everything at once
+
+some modules be useful to many people, some are only useful to a small group, but if it’s useful by more than 1 person, you should put the time in to make it nice.
+
+we’re trying to build modules for image and time series processing, try to make general modules, but some are really specific
+
+going to start by showing you a module specifically for processing mesoscope data
+
+----------------
+
+MESOSCOPE TUTORIAL
+
+----------------
+
+design goals of thunder, collection of modules for image and time series analysis, use the ones you want
+
+they do abide by a few common design patterns, in particular, images and series objects
+
+core components are thunder, registration, extraction, factorization, and regression
+
+----------------
+
+THUNDER TUTORIAL
+
+----------------
+
+neuron identication is a huge problem, lots of approaches, but in my view we've suffered from a lack of ground truth and validation against ground truth
+
+so we've been trying to tackle that, in collaboration with lots of other labs
+
+neurofinder is one thing
+
+and soon they'll be spikefinder
