@@ -2,7 +2,7 @@
 
 from setuptools import setup, find_packages
 
-version = '1.0.1'
+version = '1.0.2'
 
 required = ['click>=6.6', 'thunder-python>=1.4.2']
 
