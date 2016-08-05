@@ -6,7 +6,6 @@ from numpy import inf
 from glob import glob
 from shutil import rmtree
 from os.path import join, isdir
-import skimage.external.tifffile as tifffile
 from .. import load, convert
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
@@ -31,9 +30,7 @@ def convert_command(input, output, overwrite):
         return
     data, meta = load(input)
     newdata, newmeta = convert(data, meta)
-    def write(kv):
-        tifffile.imsave(join(output, 'image-%05g.tif' % kv[0]), kv[1])
-    newdata.clip(0, inf).astype('uint16').foreach(write)
+    newdata.clip(0, inf).astype('uint16').totif(output, overwrite=overwrite)
     with open(join(output, 'metadata.json'), 'w') as f:
       f.write(json.dumps(newmeta))
     success('data written')
