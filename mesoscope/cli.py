@@ -1,7 +1,7 @@
 import click
 
 settings = dict(help_option_names=['-h', '--help'])
-from .commands import convert
+from .commands.convert import convert_command
 
 @click.group(options_metavar='', subcommand_metavar='<command>', context_settings=settings)
 def cli():
@@ -10,4 +10,4 @@ def cli():
     Check out the list of commands to see what you can do.
     """
 
-cli.add_command(convert)
+cli.add_command(convert_command)
