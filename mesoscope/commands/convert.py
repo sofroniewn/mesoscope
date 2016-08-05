@@ -1,9 +1,12 @@
 import os
 import json
 import click
+from os import mkdir
 from numpy import inf
 from glob import glob
+from shutil import rmtree
 from os.path import join, isdir
+import skimage.external.tifffile as tifffile
 from .. import load, convert
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
@@ -17,18 +20,20 @@ def convert_command(input, output, overwrite):
     if isdir(output) and not overwrite:
         error('directory already exists and overwrite is false')
         return
+    elif isdir(output) and overwrite:
+        rmtree(output)
+        mkdir(output)
     if len(glob(join(input, '*.json'))) == 0:
         error('no json metadata found in %s' % input)
         return
-    if len(glob(join(input, '*.tif'))) == 0 and len(glob(join(input, '*.tiff'))) == 0:
+    if len(glob(join(input, '*.tif'))) == 0:
         error('no tif or tiff files found in %s' % input)
         return
     data, meta = load(input)
     newdata, newmeta = convert(data, meta)
-    minval = newdata.toarray().min()
-    if minval < 0:
-      newdata = newdata.clip(0, inf).astype('uint16')
-    newdata.totif(output, overwrite=overwrite)
+    def write(kv):
+        tifffile.imsave(join(output, 'image-%05g.tif' % kv[0]), kv[1])
+    newdata.clip(0, inf).astype('uint16').foreach(write)
     with open(join(output, 'metadata.json'), 'w') as f:
       f.write(json.dumps(newmeta))
     success('data written')

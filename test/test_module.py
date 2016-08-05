@@ -38,3 +38,4 @@ def test_convert_ground_truth():
     newdata, newmeta = convert(data, meta)
     truth = fromtif('test/resources/output')
     assert newdata.shape == truth.shape
+    assert allclose(newdata.clip(0, inf), truth)
