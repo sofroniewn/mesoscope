@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 version = '1.0.1'
 
-required = ['click>=6.6', 'thunder-python>=1.4.1']
+required = ['click>=6.6', 'thunder-python>=1.4.2']
 
 setup(
     name='mesoscope',
