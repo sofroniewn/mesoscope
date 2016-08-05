@@ -1,6 +1,6 @@
 import mesoscope as ms
 
-data, metadata = ms.load('test/resources')
+data, metadata = ms.load('test/resources/input')
 newdata, newmetadata = ms.convert(data, metadata)
 
 print('shape before conversion')
