@@ -5,7 +5,7 @@
 
 > preprocessing and conversion for mesoscope data
 
-This package contains a module and command line tool to process raw data from the [two-photon random access mesoscope](https://elifesciences.org/content/5/e14472) (2P-RAM). The raw output of the mesocope, via the ScanImage control software, is a matrix of resonant scan lines stored as TIF files. For the majority of applications, users will want to convert from this format into TIF files with 2D or 3D images that are appropriately merged and reshaped. 
+This package contains a module and command line tool to process raw data from the [two-photon random access mesoscope](https://elifesciences.org/content/5/e14472) (2P-RAM). The raw output of the mesocope, via the ScanImage control software, is a matrix of resonant scan lines across multiple rois stored as TIF files. For the majority of applications, users will want to merge and reshape their contents into images that are appropriately merged and reshaped. This module helps you do that.
 
 # install
 
@@ -20,8 +20,14 @@ pip install mesoscope
 ```python
 import mesoscope as ms
 
-data, metadata = ms.load('test/resources')
-converted = ms.convert(data, metadata)
+data, meta = ms.load('test/resources')
+newdata, newmeta = ms.convert(data, meta)
+
+data.shape
+>> (23, 5152, 64)
+
+converted.shape
+>> (23, 464, 576)
 ```
 
 # use as command line tool
@@ -32,16 +38,16 @@ Given a directory with input TIF files and a metadata file as JSON, just call
 mesoscope convert input/ output/
 ```
 
-This will create a folder `output` with the converted images.
+This will create a folder `output` with the converted images. Type `mesoscope convert -h` to see other options.
 
 # use as a module
 
 The `mesocope` package includes just two methods
 
-#### `load(path, engine=None)`
+#### `data, meta = load(path, engine=None)`
 
-Loads both data and metadata from the specified `path`. The optional `engine` can be used to load the data using a parallel backend.
+Loads both data and metadata from the specified `path`. The optional `engine` can be used to load the data using a parallel backend. Currently supports either `None` (for local compute) or a `SparkContext` (for parallelization using a Spark cluster).
 
-#### `convert(data, metadata)`
+#### `newdata, newmeta = convert(data, meta)`
 
 Converts the given data using the provided metadata. The `data` should be a `numpy` array or a `thunder` `images` object.
