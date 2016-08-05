@@ -1,6 +1,7 @@
 import os
 import json
 import click
+from numpy import inf
 from glob import glob
 from os.path import join, isdir
 from .. import load, convert
@@ -24,6 +25,9 @@ def convert_command(input, output, overwrite):
         return
     data, meta = load(input)
     newdata, newmeta = convert(data, meta)
+    minval = newdata.toarray().min()
+    if minval < 0:
+      newdata = newdata.clip(0, inf).astype('uint16')
     newdata.totif(output, overwrite=overwrite)
     with open(join(output, 'metadata.json'), 'w') as f:
       f.write(json.dumps(newmeta))
