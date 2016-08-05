@@ -40,7 +40,7 @@ Given a directory with input TIF files and a metadata file as JSON, just call
 mesoscope convert input/ output/
 ```
 
-This will create a folder `output` with the converted images. Type `mesoscope convert -h` to see other options. Note that during image writing `int16` values will be replaced with `uint16` values so any negative values will be clipped at 0.
+This will create a folder `output` with the converted images. Type `mesoscope convert -h` to see other options. Note that during image writing `int16` values will be written as `uint16` so any negative values will be clipped at 0.
 
 # use as a module
 
