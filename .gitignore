@@ -2,3 +2,5 @@
 .ipynb_checkpoints
 
 .cache/
+dist/
+mesoscope.egg-info/
