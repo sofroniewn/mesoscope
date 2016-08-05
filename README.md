@@ -17,10 +17,12 @@ pip install mesoscope
 
 # example
 
+Here we'll convert the example test data included with the repository
+
 ```python
 import mesoscope as ms
 
-data, meta = ms.load('test/resources')
+data, meta = ms.load('test/resources/input')
 newdata, newmeta = ms.convert(data, meta)
 
 data.shape

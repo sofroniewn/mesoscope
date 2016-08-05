@@ -5,7 +5,7 @@ from os.path import join
 
 def load(path):
     """
-    Load metadata
+    Load metadata.
     """
     if not path.endswith('json'):
         path = join(path, '*.json')
@@ -19,7 +19,7 @@ def load(path):
 
 def merge(meta):
     """
-    Merge metadata
+    Merge metadata.
     """
     meta = meta.copy()
     center = array([x['center'] for x in meta['rois']]).mean(axis=0)
@@ -42,7 +42,7 @@ def merge(meta):
 
 def parse(header):
     """
-    Parse metadata from header dictionary
+    Parse metadata from header dictionary.
     """
     meta = {}
     
@@ -88,7 +88,7 @@ def parse(header):
 
 def check_order(rois, order):
     """
-    Check order
+    Check order.
     """
     diff = array([abs((rois[order[i]]['center'][0] + rois[order[i]]['size'][0]/2) 
     - (rois[order[i+1]]['center'][0] - rois[order[i+1]]['size'][0]/2)) for i in range(len(order)-1)])
@@ -97,6 +97,6 @@ def check_order(rois, order):
 
 def rescale(x, fovmm):
     """
-    Rescale volume
+    Rescale volume.
     """
     return multiply(x, fovmm).tolist()
