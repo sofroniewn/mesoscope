@@ -27,6 +27,7 @@ def test_convert_data():
     data, meta = load('test/resources/input')
     newdata, newmeta = convert(data, meta)
     assert newdata.shape == (23, 464, 576)
+    assert newdata.dtype == 'int16'
 
 def test_convert_data_array():
     data, meta = load('test/resources/input')
