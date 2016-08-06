@@ -1,4 +1,4 @@
-# mesocope
+# mesoscope
 
 [![Latest Version](https://img.shields.io/pypi/v/meoscope.svg?style=flat-square)](https://pypi.python.org/pypi/mesoscope)
 [![Build Status](https://img.shields.io/travis/sofroniewn/mesoscope/master.svg?style=flat-square)](https://travis-ci.org/sofroniewn/mesoscope) 
