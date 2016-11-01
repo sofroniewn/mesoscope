@@ -1,14 +1,16 @@
 from numpy import array, multiply, argsort
 from glob import glob
 import json
-from os.path import join
+from os.path import join, isdir
 
 def load(path):
     """
     Load metadata.
     """
-    if not path.endswith('json'):
+    if isdir(path):
         path = join(path, '*.json')
+    elif not path.endswith('json'):
+        path = path + '.json'
     files = glob(path)
     if len(files) < 1:
         raise Exception('cannot find metadata file at %s' % path)
@@ -31,13 +33,13 @@ def merge(meta):
     meta['rois'] = [dict([('center', list(center)),
         ('size', list(size)),
         ('npixels',list(npixels)),
-        ('depths', depths)])]        
+        ('depths', depths)])]
     meta['nrois'] = 1
-    
+
     del meta['merge']
     del meta['order']
     del meta['nlines']
-    
+
     return meta
 
 def parse(header):
@@ -45,7 +47,7 @@ def parse(header):
     Parse metadata from header dictionary.
     """
     meta = {}
-    
+
     if not header['hRoiManager']['mroiEnable']:
         raise Exception('missing mroiEnable field')
 
@@ -55,14 +57,14 @@ def parse(header):
         depths = header['hFastZ']['userZs']
     else:
         depths = header['hStackManager']['zs']
-    
+
     if type(depths) == int:
         meta['nplanes'] = 1
     else:
         meta['nplanes'] = len(depths)
 
     meta['depths'] = depths
-    
+
     meta['averaging'] = header['hStackManager']['framesPerSlice']
     meta['power'] = header['hBeams']['powers']
 
@@ -71,7 +73,7 @@ def parse(header):
     meta['rois'] = [dict([('center', rescale(roi['scanfields']['centerXY'], objective_resolution)),
             ('size', rescale(roi['scanfields']['sizeXY'], objective_resolution)),
             ('npixels',roi['scanfields']['pixelResolutionXY']),
-            ('depths', roi['zs'])]) 
+            ('depths', roi['zs'])])
              for roi in header['imagingRoiGroup']['rois']]
     meta['nrois'] = len(meta['rois'])
     meta['nlines'] = meta['rois'][0]['npixels'][1]
@@ -80,19 +82,19 @@ def parse(header):
         meta['nchannels'] = 1
     else:
         meta['nchannels'] = len(header['hChannels']['channelSave'])
-    
+
     meta['order'] = argsort([roi['center'][0] for roi in meta['rois']])
     meta['merge'] = check_order(meta['rois'], meta['order'])
-    
+
     return meta
 
 def check_order(rois, order):
     """
     Check order.
     """
-    diff = array([abs((rois[order[i]]['center'][0] + rois[order[i]]['size'][0]/2) 
+    diff = array([abs((rois[order[i]]['center'][0] + rois[order[i]]['size'][0]/2)
     - (rois[order[i+1]]['center'][0] - rois[order[i+1]]['size'][0]/2)) for i in range(len(order)-1)])
-    
+
     return diff.mean() < .02
 
 def rescale(x, fovmm):
