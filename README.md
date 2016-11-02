@@ -46,7 +46,7 @@ This will create a folder `output` with the converted images. Type `mesoscope co
 
 # use as a module
 
-The `mesocope` package includes just two methods
+The `mesoscope` package includes just two methods
 
 #### `data, meta = load(path, metapath=None, engine=None)`
 
