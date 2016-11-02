@@ -28,7 +28,7 @@ def convert_command(input, output, overwrite):
     if len(glob(join(input, '*.tif'))) == 0:
         error('no tif or tiff files found in %s' % input)
         return
-    data, meta = load(input)
+    data, meta = load(input, input)
     newdata, newmeta = convert(data, meta)
     newdata.clip(0, inf).astype('uint16').totif(output, overwrite=overwrite)
     with open(join(output, 'metadata.json'), 'w') as f:

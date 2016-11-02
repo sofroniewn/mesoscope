@@ -9,20 +9,23 @@ from .data import load as load_data
 from .data import reshape, split
 from .metadata import merge
 
-def load(path, engine=None):
+def load(path, metapath=None, engine=None):
     """
     Load raw mesoscope data and metadata.
 
     Parameters
     ----------
-    path : str 
+    path : str
         Location with both metadata (.json) and image files (.tif).
 
     engine : multiple
-        A computational backend for parallelization can be None (for local compute) 
+        A computational backend for parallelization can be None (for local compute)
         or a SparkContext (for Spark).
     """
-    metadata = load_metadata(path)
+    if metapath == None:
+        metapath = path
+    metadata = load_metadata(metapath)
+
     if metadata['logFramesPerFile'] == 1:
         data = load_data(path, engine=engine)
     else:
@@ -51,7 +54,7 @@ def convert(data, metadata):
     if metadata['merge']:
         newdata = data.map(lambda x : reshape(x, nrois, nlines, order))
     else:
-        newdata = data.map(lambda x : split(x, nrois, nlines))        
+        newdata = data.map(lambda x : split(x, nrois, nlines))
     newmetadata = merge(metadata)
     newmetadata['shape'] = newdata.shape
     return newdata, newmetadata

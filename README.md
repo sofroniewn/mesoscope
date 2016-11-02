@@ -1,7 +1,7 @@
 # mesoscope
 
-[![Latest Version](https://img.shields.io/pypi/v/meoscope.svg?style=flat-square)](https://pypi.python.org/pypi/mesoscope)
-[![Build Status](https://img.shields.io/travis/sofroniewn/mesoscope/master.svg?style=flat-square)](https://travis-ci.org/sofroniewn/mesoscope) 
+[![Latest Version](https://img.shields.io/pypi/v/mesoscope.svg?style=flat-square)](https://pypi.python.org/pypi/mesoscope)
+[![Build Status](https://img.shields.io/travis/sofroniewn/mesoscope/master.svg?style=flat-square)](https://travis-ci.org/sofroniewn/mesoscope)
 [![Binder](https://img.shields.io/badge/launch-binder-red.svg?style=flat-square)](http://mybinder.org:/repo/sofroniewn/mesoscope)
 
 
@@ -46,11 +46,11 @@ This will create a folder `output` with the converted images. Type `mesoscope co
 
 # use as a module
 
-The `mesocope` package includes just two methods
+The `mesoscope` package includes just two methods
 
-#### `data, meta = load(path, engine=None)`
+#### `data, meta = load(path, metapath=None, engine=None)`
 
-Loads both data and metadata from the specified `path`. The optional `engine` can be used to load the data using a parallel backend. Currently supports either `None` (for local compute) or a `SparkContext` (for parallelization using a Spark cluster).
+Loads both data and metadata from the specified `path`. The optional `metapath` allows a seperate path for the metadata. If not given the metadata will be looked for inside `path`. The optional `engine` can be used to load the data using a parallel backend. Currently supports either `None` (for local compute) or a `SparkContext` (for parallelization using a Spark cluster).
 
 #### `newdata, newmeta = convert(data, meta)`
 
