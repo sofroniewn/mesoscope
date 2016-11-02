@@ -9,7 +9,7 @@ from .data import load as load_data
 from .data import reshape
 from .metadata import merge
 
-def load(path, pathjson=None, engine=None):
+def load(path, metapath=None, engine=None):
     """
     Load raw mesoscope data and metadata.
 
@@ -22,9 +22,9 @@ def load(path, pathjson=None, engine=None):
         A computational backend for parallelization can be None (for local compute)
         or a SparkContext (for Spark).
     """
-    if pathjson == None:
-        pathjson = path
-    metadata = load_metadata(pathjson)
+    if metapath == None:
+        metapath = path
+    metadata = load_metadata(metapath)
     data = load_data(path, nplanes=metadata['nplanes'], engine=engine)
     metadata['shape'] = data.shape
     return data, metadata
