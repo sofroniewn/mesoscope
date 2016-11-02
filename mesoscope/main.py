@@ -6,7 +6,7 @@ from os.path import join, exists
 from glob import glob
 from .metadata import load as load_metadata
 from .data import load as load_data
-from .data import reshape, split
+from .data import reshape, split, select
 from .metadata import merge
 
 def load(path, metapath=None, engine=None):
@@ -17,6 +17,9 @@ def load(path, metapath=None, engine=None):
     ----------
     path : str
         Location with both metadata (.json) and image files (.tif).
+
+    metapath : str
+        Optional location with metadata (.json) if different from path.
 
     engine : multiple
         A computational backend for parallelization can be None (for local compute)
@@ -58,3 +61,23 @@ def convert(data, metadata):
     newmetadata = merge(metadata)
     newmetadata['shape'] = newdata.shape
     return newdata, newmetadata
+
+def reference(data, start=None, stop=None, algorithm='mean'):
+    """
+    Function for deteriminging reference image.
+
+    Parameters
+    ----------
+    data : numpy array or images
+        Raw image data as a numpy array or thunder images object.
+
+    start, stop : nonnegative int, optional, default=None
+        Indices of files to load, interpreted using Python slicing conventions.
+
+    algorithm : algorithm used for calculating reference image
+    """
+    data = select(data,start,stop)
+    if algorithm == 'mean':
+        return data.mean().toarray()
+    else:
+        raise ValueError("Algorithm '%s' for generating reference not recognized" % algorithm)

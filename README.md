@@ -46,7 +46,7 @@ This will create a folder `output` with the converted images. Type `mesoscope co
 
 # use as a module
 
-The `mesoscope` package includes just two methods
+The `mesoscope` package includes the following methods
 
 #### `data, meta = load(path, metapath=None, engine=None)`
 
@@ -55,3 +55,7 @@ Loads both data and metadata from the specified `path`. The optional `metapath` 
 #### `newdata, newmeta = convert(data, meta)`
 
 Converts the given data using the provided metadata. The `data` should be a `numpy` array or a `thunder` `images` object.
+
+#### `ref = reference(data, start=None, stop=None, algorithm='mean')`
+
+Computes a reference image. The `data` should be a `numpy` array or a `thunder` `images` object. The reference image will be computed on a segment of data from `start` to `stop` if these optional parameters are provided. The algorithm used will be specified by `algorithm`. Currently only the default `mean` algorithm is supported.

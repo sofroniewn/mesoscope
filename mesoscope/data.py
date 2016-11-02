@@ -11,7 +11,7 @@ def split(oim, nrois, nlines):
     """
     if not oim.ndim == 2:
       raise Exception('original image must be two dimensional')
-    
+
     if nrois > 1:
         ntotal = oim.shape[0]
         ngap = (ntotal - nlines*nrois)/(nrois-1)
@@ -50,3 +50,15 @@ def normalize(oim):
     means = oim.mean(axis=(1, 2), dtype='float32')
     maximum = means.max()
     return array([oim[i]*maximum/means[i] for i in range(oim.shape[0])])
+
+def select(data, start, stop):
+    """
+    Helper function for handling start and stop indices
+    """
+    if start or stop:
+        if start is None:
+            start = 0
+        if stop is None:
+            stop = len(files)
+        data = data[start:stop]
+    return data
