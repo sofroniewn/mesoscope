@@ -6,7 +6,7 @@ from os.path import join, exists
 from glob import glob
 from .metadata import load as load_metadata
 from .data import load as load_data
-from .data import reshape
+from .data import reshape, split
 from .metadata import merge
 
 def load(path, engine=None):
@@ -23,7 +23,10 @@ def load(path, engine=None):
         or a SparkContext (for Spark).
     """
     metadata = load_metadata(path)
-    data = load_data(path, nplanes=metadata['nplanes'], engine=engine)
+    if metadata['logFramesPerFile'] == 1:
+        data = load_data(path, engine=engine)
+    else:
+        data = load_data(path, nplanes=metadata['nplanes'], engine=engine)
     metadata['shape'] = data.shape
     return data, metadata
 
@@ -45,7 +48,10 @@ def convert(data, metadata):
     nrois = metadata['nrois']
     nlines = metadata['nlines']
     order = metadata['order']
-    newdata = data.map(lambda x : reshape(x, nrois, nlines, order))
+    if metadata['merge']:
+        newdata = data.map(lambda x : reshape(x, nrois, nlines, order))
+    else:
+        newdata = data.map(lambda x : split(x, nrois, nlines))        
     newmetadata = merge(metadata)
     newmetadata['shape'] = newdata.shape
     return newdata, newmetadata

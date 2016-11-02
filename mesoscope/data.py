@@ -1,7 +1,7 @@
 from numpy import array
 from thunder.images import fromtif
 
-def load(path, nplanes, engine=None):
+def load(path, nplanes=None, engine=None):
     data = fromtif(path, nplanes=nplanes, engine=engine)
     return data
 

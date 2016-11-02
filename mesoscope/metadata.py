@@ -31,12 +31,13 @@ def merge(meta):
     meta['rois'] = [dict([('center', list(center)),
         ('size', list(size)),
         ('npixels',list(npixels)),
-        ('depths', depths)])]        
+        ('depths', depths)])]
     meta['nrois'] = 1
     
     del meta['merge']
     del meta['order']
     del meta['nlines']
+    del meta['logFramesPerFile']
     
     return meta
 
@@ -60,6 +61,8 @@ def parse(header):
         meta['nplanes'] = 1
     else:
         meta['nplanes'] = len(depths)
+
+    meta['logFramesPerFile'] = header['hResScan']['logFramesPerFile']
 
     meta['depths'] = depths
     
