@@ -44,6 +44,13 @@ mesoscope convert input/ output/
 
 This will create a folder `output` with the converted images. Type `mesoscope convert -h` to see other options. Note that during image writing `int16` values will be written as `uint16` so any negative values will be clipped at 0.
 
+```
+mesoscope summarize input/ output/
+```
+
+This will create a folder `output` with the summary images. Type `mesoscope summarize -h` to see other options. The summary images include a mean image and a local correlation image. The neighborhood of the local correlation can be set with `--size`.
+
+
 # use as a module
 
 The `mesoscope` package includes the following methods
