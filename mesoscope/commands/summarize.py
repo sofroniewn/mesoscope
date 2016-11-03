@@ -5,7 +5,7 @@ from os import mkdir
 from numpy import inf
 from glob import glob
 from shutil import rmtree
-from os.path import join, isdir
+from os.path import join, isdir, isfile
 from thunder.images import fromtif, frombinary
 from skimage.io import imsave
 
@@ -18,14 +18,6 @@ from skimage.io import imsave
 def summarize_command(input, output, localcorr, size, overwrite):
     output = input + '_converted' if output is None else output
     status('reading data from %s' % input)
-    if isdir(output) and not overwrite:
-        error('directory already exists and overwrite is false')
-        return
-    elif isdir(output) and overwrite:
-        rmtree(output)
-        mkdir(output)
-    else:
-        mkdir(output)
     if len(glob(join(input, '*.tif'))) > 0:
         data = fromtif(input)
     elif len(glob(join(input, '*.bin'))) > 0:
@@ -34,18 +26,30 @@ def summarize_command(input, output, localcorr, size, overwrite):
         error('no tif or binary files found in %s' % input)
         return
 
-    status('summarizing-mean')
-    mean = data.mean().toarray()
-    imsave(join(output, 'mean.tif'), mean.clip(0, inf).astype('uint16'), plugin='tifffile', photometric='minisblack')
+    if not isdir(output):
+        mkdir(output)
+
+    if not isfile(join(output, 'mean.tif')) or overwrite:
+        status('summarizing-mean')
+        mean = data.mean().toarray()
+        imsave(join(output, 'mean.tif'), mean.clip(0, inf).astype('uint16'), plugin='tifffile', photometric='minisblack')
+    else:
+        warn('mean.tif already exists and overwrite is false')
+
     if localcorr:
-        status('summarizing-localcorr')
         if type(size) == tuple:
-            path = join(output, 'localcorr-%s.tif' % ''.join(map(str,size)))
+            name = 'localcorr-%s.tif' % ''.join(map(str,size))
         else:
-            path = join(output, 'localcorr-%s.tif' % size)
-        lc = data.localcorr(size)
-        imsave(path, lc.astype('float32'), plugin='tifffile', photometric='minisblack')
-    success('data written')
+            name = 'localcorr-%s.tif' % size
+        if not isfile(join(output, name)) or overwrite:
+            status('summarizing-localcorr')
+            lc = data.localcorr(size)
+            mean = data.mean().toarray()
+            imsave(join(output, name), lc.astype('float32'), plugin='tifffile', photometric='minisblack')
+        else:
+            warn('%s already exists and overwrite is false' % name)
+
+    success('summary complete')
 
 def success(msg):
     click.echo('[' + click.style('success', fg='green') + '] ' + msg)
@@ -55,3 +59,6 @@ def status(msg):
 
 def error(msg):
     click.echo('[' + click.style('error', fg='red') + '] ' + msg)
+
+def warn(msg):
+    click.echo('[' + click.style('warn', fg='yellow') + '] ' + msg)
