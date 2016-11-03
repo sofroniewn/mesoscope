@@ -10,11 +10,12 @@ from thunder.images import fromtif, frombinary
 from skimage.io import imsave
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
+@click.option('--localcorr', is_flag=True, help='Compute local correlation')
 @click.option('--size', nargs=1, default=2, help='Int or tuple neighborhood for local correlation')
 @click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('summarize', short_help='create summary images', options_metavar='<options>')
-def summarize_command(input, output, size, overwrite):
+def summarize_command(input, output, localcorr, size, overwrite):
     output = input + '_converted' if output is None else output
     status('reading data from %s' % input)
     if isdir(output) and not overwrite:
@@ -36,9 +37,10 @@ def summarize_command(input, output, size, overwrite):
     status('summarizing-mean')
     mean = data.mean().toarray()
     imsave(join(output, 'mean.tif'), mean.clip(0, inf).astype('uint16'), plugin='tifffile', photometric='minisblack')
-    status('summarizing-localcorr')
-    localcorr = data.localcorr(size)
-    imsave(join(output, 'localcorr.tif'), localcorr.astype('float32'), plugin='tifffile', photometric='minisblack')
+    if localcorr:
+        status('summarizing-localcorr')
+        lc = data.localcorr(size)
+        imsave(join(output, 'localcorr-%s.tif' % ''.join(map(str,size))), lc.astype('float32'), plugin='tifffile', photometric='minisblack')
     success('data written')
 
 def success(msg):
