@@ -48,7 +48,7 @@ This will create a folder `output` with the converted images. Type `mesoscope co
 mesoscope summarize input/ output/
 ```
 
-This will create a folder `output` with the summary images. Type `mesoscope summarize -h` to see other options. The summary images include a mean image and a local correlation image. The neighborhood of the local correlation can be set with the `--size` option.
+This will create a folder `output` with the summary images. Type `mesoscope summarize -h` to see other options. The summary images include a mean image. Using the `--localcorr` option a local correlation image will be computed. The neighborhood of the local correlation can be set with the `--size` option.
 
 
 # use as a module

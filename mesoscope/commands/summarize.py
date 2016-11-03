@@ -39,8 +39,12 @@ def summarize_command(input, output, localcorr, size, overwrite):
     imsave(join(output, 'mean.tif'), mean.clip(0, inf).astype('uint16'), plugin='tifffile', photometric='minisblack')
     if localcorr:
         status('summarizing-localcorr')
+        if type(size) == tuple:
+            path = join(output, 'localcorr-%s.tif' % ''.join(map(str,size)))
+        else:
+            path = join(output, 'localcorr-%s.tif' % size)
         lc = data.localcorr(size)
-        imsave(join(output, 'localcorr-%s.tif' % ''.join(map(str,size))), lc.astype('float32'), plugin='tifffile', photometric='minisblack')
+        imsave(path, lc.astype('float32'), plugin='tifffile', photometric='minisblack')
     success('data written')
 
 def success(msg):
