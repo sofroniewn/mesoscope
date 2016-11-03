@@ -1,5 +1,5 @@
 from numpy import allclose, inf
-from mesoscope import load, convert, reference
+from mesoscope import load, convert, reference, downsample
 from thunder.images import fromtif
 
 def test_load_meta():
@@ -45,3 +45,8 @@ def test_reference_shape():
     data = fromtif('test/resources/output')
     ref = reference(data)
     assert ref.shape == (464, 576)
+
+def test_downsample_shape():
+    data = fromtif('test/resources/output')
+    result = downsample(data, ds=2, dt=2)
+    assert result.shape == (12, 232, 288)

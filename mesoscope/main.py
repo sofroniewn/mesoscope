@@ -6,7 +6,7 @@ from os.path import join, exists
 from glob import glob
 from .metadata import load as load_metadata
 from .data import load as load_data
-from .data import reshape, split, select
+from .data import reshape, split, select, smooth
 from .metadata import merge
 
 def load(path, metapath=None, engine=None):
@@ -81,3 +81,25 @@ def reference(data, start=None, stop=None, algorithm='mean'):
         return data.mean().toarray()
     else:
         raise ValueError("Algorithm '%s' for generating reference not recognized" % algorithm)
+
+def downsample(data, ds=None, dt=None):
+    """
+    Function for downsampling images in space and time.
+
+    Parameters
+    ----------
+    data : numpy array or images
+        Raw image data as a numpy array or thunder images object.
+
+    ds : int or tuple that specifies downsampling in space
+
+    dt : int that specifies downsampling in time
+    """
+
+    if not ds == None:
+        data = data.median_filter(ds).subsample(ds)
+
+    if not dt == None:
+        data = data.map_as_series(lambda x: smooth(x, dt))
+
+    return data

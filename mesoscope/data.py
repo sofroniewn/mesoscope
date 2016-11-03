@@ -1,4 +1,4 @@
-from numpy import array
+from numpy import array, convolve, ones
 from thunder.images import fromtif
 
 def load(path, nplanes=None, engine=None):
@@ -62,3 +62,7 @@ def select(data, start, stop):
             stop = len(files)
         data = data[start:stop]
     return data
+
+def smooth(data, dt):
+    data = convolve(data, ones(dt)/dt, 'same').astype('int16')
+    return data[::dt]
