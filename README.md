@@ -48,7 +48,7 @@ This will create a folder `output` with the converted images. Type `mesoscope co
 mesoscope summarize input/ output/
 ```
 
-This will create a folder `output` with the summary images. Type `mesoscope summarize -h` to see other options. The summary images include a mean image. Using the `--localcorr` option a local correlation image will be computed. The neighborhood of the local correlation can be set with the `--size` option.
+This will create a folder `output` with the summary images and moives. Type `mesoscope summarize -h` to see other options. Using the `--mean` flag will generate a mean image. Using the `--localcorr` option a local correlation image will be computed. The neighborhood of the local correlation can be set with the `--size` option. Using the `--movie` option will generate a movie. The movie can be downsampled in space with `--ds` and time with `--dt`. If metadata is present then it will be used to generate length scales and timestamps for the movie. If the data recorded is a volume than one movie will be generated for each plane, and the local correlation and spatial downsampling will be done independently on each plane.
 
 
 # use as a module
