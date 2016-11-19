@@ -2,16 +2,16 @@
 
 from setuptools import setup, find_packages
 
-version = '1.0.2'
+version = '1.0.3'
 
-required = ['click>=6.6', 'thunder-python>=1.4.2']
+required = ['click>=6.6', 'thunder-python>=1.4.2', 'thunder-registration>=1.0.1']
 
 setup(
     name='mesoscope',
     version=version,
     description='process data from the two-photon random access mesoscope',
     author='sofroniewn',
-    author_email='the.freeman.lab@gmail.com',
+    author_email='sofroniewn@gmail.com',
     url='https://github.com/sofroniewn/mesoscope',
     packages=find_packages(),
     install_requires=required,
