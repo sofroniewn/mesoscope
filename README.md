@@ -50,6 +50,12 @@ mesoscope summarize input/ output/
 
 This will create a folder `output` with the summary images and movies. Type `mesoscope summarize -h` to see other options. Using the `--mean` flag will generate a mean image. Using the `--localcorr` option a local correlation image will be computed. The neighborhood of the local correlation can be set with the `--size` option. Using the `--movie` option will generate a movie. The movie can be downsampled in space with `--ds` and time with `--dt`. If metadata is present then it will be used to generate length scales and timestamps for the movie. If the data recorded is a volume than one movie will be generated for each plane, and the local correlation and spatial downsampling will be done independently on each plane.
 
+```
+mesoscope register input/ output/
+```
+
+This will create a folder `output` with the registered images and shifts. Type `mesoscope register -h` to see other options. The registration will first compute a reference image by taking a mean of all the data. It will then perform a global cross correlation based rigid transform of the data to align each frame to this reference. If the data is a volume each z-plane will be treated independently. A `.csv` file containing the shifts will also be saved.
+
 
 # use as a module
 

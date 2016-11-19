@@ -34,7 +34,9 @@ def register_command(input, output, overwrite):
         error('no tif or binary files found in %s' % input)
         return
 
+    status('computing reference')
     ref = reference(data, algorithm='mean')
+    status('registering')
     newdata, shifts = register(data, ref)
 
     if ext == 'tif':
