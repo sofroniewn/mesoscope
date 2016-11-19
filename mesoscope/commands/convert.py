@@ -15,13 +15,14 @@ from .. import load, convert
 @click.command('convert', short_help='process raw data by converting into images', options_metavar='<options>')
 def convert_command(input, output, ext, overwrite):
     output = input + '_converted' if output is None else output
-    status('reading data from %s' % input)
     if isdir(output) and not overwrite:
         error('directory already exists and overwrite is false')
         return
     elif isdir(output) and overwrite:
         rmtree(output)
         mkdir(output)
+
+    status('reading data from %s' % input)
     if len(glob(join(input, '*.json'))) == 0:
         error('no json metadata found in %s' % input)
         return

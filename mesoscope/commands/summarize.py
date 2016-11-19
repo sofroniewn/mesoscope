@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('summarize', short_help='create summary images', options_metavar='<options>')
 def summarize_command(input, output, localcorr, mean, movie, ds, dt, size, overwrite):
-    output = input + '_converted' if output is None else output
+    output = input + '_summary' if output is None else output
     status('reading data from %s' % input)
     if len(glob(join(input, '*.tif'))) > 0:
         data = fromtif(input)
