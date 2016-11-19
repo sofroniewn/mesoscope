@@ -6,7 +6,7 @@ from os.path import join, exists
 from glob import glob
 from .metadata import load as load_metadata
 from .data import load as load_data
-from .data import reshape, split, select, smooth
+from .data import reshape, split, smooth
 from .metadata import merge
 
 def load(path, metapath=None, engine=None):
@@ -62,7 +62,7 @@ def convert(data, metadata):
     newmetadata['shape'] = newdata.shape
     return newdata, newmetadata
 
-def reference(data, start=None, stop=None, algorithm='mean'):
+def reference(data, algorithm='mean'):
     """
     Function for deteriminging reference image.
 
@@ -71,12 +71,9 @@ def reference(data, start=None, stop=None, algorithm='mean'):
     data : numpy array or images
         Raw image data as a numpy array or thunder images object.
 
-    start, stop : nonnegative int, optional, default=None
-        Indices of files to load, interpreted using Python slicing conventions.
-
     algorithm : algorithm used for calculating reference image
     """
-    data = select(data,start,stop)
+
     if algorithm == 'mean':
         return data.mean().toarray()
     else:

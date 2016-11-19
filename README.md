@@ -63,10 +63,12 @@ Loads both data and metadata from the specified `path`. The optional `metapath` 
 
 Converts the given data using the provided metadata. The `data` should be a `numpy` array or a `thunder` `images` object.
 
-#### `ref = reference(data, start=None, stop=None, algorithm='mean')`
+#### `ref = reference(data, algorithm='mean')`
 
-Computes a reference image. The `data` should be a `numpy` array or a `thunder` `images` object. The reference image will be computed on a segment of data from `start` to `stop` if these optional parameters are provided. The algorithm used will be specified by `algorithm`. Currently only the default `mean` algorithm is supported.
+Computes a reference image. The `data` should be a `numpy` array or a `thunder` `images` object. The algorithm used will be specified by `algorithm`. Currently only the default `mean` algorithm is supported.
 
 #### `newdata = downsample(data, ds=None, dt=None)`
 
 Downsamples data in space with `ds` and time with `dt`. `ds` should be either an `int` or a `tuple`. `dt` should be an `int`.
+
+#### `registered = register(data, ref, algorithm='mean')`

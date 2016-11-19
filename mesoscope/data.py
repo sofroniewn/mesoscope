@@ -51,18 +51,6 @@ def normalize(oim):
     maximum = means.max()
     return array([oim[i]*maximum/means[i] for i in range(oim.shape[0])])
 
-def select(data, start, stop):
-    """
-    Helper function for handling start and stop indices
-    """
-    if start or stop:
-        if start is None:
-            start = 0
-        if stop is None:
-            stop = len(files)
-        data = data[start:stop]
-    return data
-
 def smooth(data, dt):
     data = convolve(data, ones(dt)/dt, 'same').astype('int16')
     return data[::dt]
