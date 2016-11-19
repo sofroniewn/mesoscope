@@ -2,7 +2,7 @@ import os
 import json
 import click
 from os import mkdir
-from numpy import inf
+from numpy import inf, percentile
 from glob import glob
 from shutil import rmtree
 from os.path import join, isdir, isfile
@@ -77,57 +77,56 @@ def summarize_command(input, output, localcorr, mean, movie, ds, dt, size, overw
         name = 'movie%s%s%s.mp4' % (dsString, dtString, pString)
         if not isfile(join(output, name)) or overwrite:
             status('summarizing-movie')
+            rate = 10
+            ppum = 0.5
+            scale = 1000
+
+            if dt is not None:
+                rate = rate*dt
+
+            if ds is not None:
+                ppum = ppum/ds
+
             if len(data.shape) == 4:
                 ds = (1, ds, ds)
-            mv = downsample(data, ds=ds, dt=dt).toarray()
-            if len(data.shape) == 4:
-                for plane in range(mv.shape(3)):
+            result = downsample(data, ds=ds, dt=dt).toarray()
+            if dt == None:
+                dt = 0
+
+            Writer = animation.writers['ffmpeg']
+            writer = Writer(fps=15, metadata=dict(artist='Me'), bitrate=40000)
+
+            def animate(mv, name):
+                clim = 5*percentile(mv, 90)
+                img = mv[mv.shape[0]/2,:,:]
+
+                fig = plt.figure(figsize=[12, 12.0*img.shape[0]/img.shape[1]])
+                fig.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=None, hspace=None)
+                ax = plt.gca()
+                im = image(img, clim=(0, clim), ax=ax)
+
+                time = ax.text(.97*img.shape[1], .04*img.shape[0], '%.1f s' % 0, color='white', fontsize=22, ha='right', fontdict={'family': 'monospace'});
+                ax.plot([.04*img.shape[1], .04*img.shape[1]+scale*ppum], [.94*img.shape[0], .94*img.shape[0]], 'w', lw=2);
+                sclae = ax.text(.04*img.shape[1]+scale*ppum/2, .97*img.shape[0], '%d um' % scale, color='white', fontsize=22, ha='center', fontdict={'family': 'monospace'});
+                plt.xlim([0, img.shape[1]]);
+                plt.ylim([img.shape[0], 0]);
+
+                nframes = mv.shape[0]-dt
+
+                def update(f):
+                    im.set_array(mv[dt/2+f])
+                    time.set_text('%.1f s' % ((dt/2+f)/rate))
+
+                ani = animation.FuncAnimation(fig, update, nframes, blit=False)
+                ani.save(join(output, name), writer=writer)
+
+            if len(result.shape) == 4:
+                for plane in range(result.shape(1)):
                     pString = '-p%s' % plane
                     name = 'movie%s%s%s.mp4' % (dsString, dtString, pString)
-                    print(name)
+                    animate(result[:,plane,:,:], name)
             else:
-                print(name)
-
-            clim = 100
-            frame = mv.shape[0]/2
-            img = mv[frame,:,:]
-
-            fig = plt.figure(figsize=[12, 12.0*img.shape[0]/img.shape[1]])
-            fig.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=None, hspace=None)
-            ax = plt.gca()
-            im = image(img, clim=(0, clim*8), ax=ax)
-
-            # time = ax.text(.97*img.shape[1], .04*img.shape[0], '%.1f s' % (frame/frameRate), color='white', fontsize=22, ha='right', fontdict={'family': 'monospace'});
-            # ax.plot([.04*img.shape[1], .04*img.shape[1]+scaleBar*pixelsPerUm], [.94*img.shape[0], .94*img.shape[0]], 'w');
-            # sclae = ax.text(.04*img.shape[1]+scaleBar*pixelsPerUm/2, .97*img.shape[0], '%d um' % scaleBar, color='white', fontsize=22, ha='center', fontdict={'family': 'monospace'});
-            # plt.xlim([0, img.shape[1]]);
-            # plt.ylim([img.shape[0], 0]);
-            dsTime = 5
-            nframes = mv.shape[0]-dsTime
-
-                #time.set_text('%.1f s' % ((dsTime/2+frame)/frameRate))
-
-            ani = animation.FuncAnimation(fig, update, nframes, blit=False)
-            ani.save(join(output, name), writer=writer)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            # work on naming of movie, so if none ds, dt, use a 1
-            # go through each plane and create movie
-            # have to decide how to take clim, use percentile of mean ???, make commandline option??
-            # check if metadata exists - if so load it in and use for timestamp / scalebar
-#            imsave(join(output, name), lc.astype('float32'), plugin='tifffile', photometric='minisblack')
+                animate(result, name)
         else:
             warn('%s already exists and overwrite is false' % name)
 
@@ -144,9 +143,3 @@ def error(msg):
 
 def warn(msg):
     click.echo('[' + click.style('warn', fg='yellow') + '] ' + msg)
-
-Writer = animation.writers['ffmpeg']
-writer = Writer(fps=15, metadata=dict(artist='Me'), bitrate=40000)
-
-def update(frame):
-    im.set_array(movie[dsTime/2+frame,:,:])
