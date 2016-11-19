@@ -71,4 +71,6 @@ Computes a reference image. The `data` should be a `numpy` array or a `thunder` 
 
 Downsamples data in space with `ds` and time with `dt`. `ds` should be either an `int` or a `tuple`. `dt` should be an `int`.
 
-#### `registered = register(data, ref, algorithm='mean')`
+#### `registered, shifts = register(data, ref)`
+
+Computes rigid cross correlation based registration of `data` to `ref`. If `data` is volumetric z-planes are treated independently.

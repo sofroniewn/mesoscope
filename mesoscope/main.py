@@ -8,6 +8,7 @@ from .metadata import load as load_metadata
 from .data import load as load_data
 from .data import reshape, split, smooth
 from .metadata import merge
+from registration import CrossCorr
 
 def load(path, metapath=None, engine=None):
     """
@@ -64,7 +65,7 @@ def convert(data, metadata):
 
 def reference(data, algorithm='mean'):
     """
-    Function for deteriminging reference image.
+    Function for deterimining reference image.
 
     Parameters
     ----------
@@ -100,3 +101,27 @@ def downsample(data, ds=None, dt=None):
         data = data.map_as_series(lambda x: smooth(x, dt))
 
     return data
+
+def register(data, ref):
+    """
+    Function for registering data using a referece image.
+
+    Parameters
+    ----------
+    data : numpy array or images
+        Raw image data as a numpy array or thunder images object.
+
+    ref : numpy array or images
+        Reference image as a numpy array or thunder images object.
+    """
+
+    if len(data.shape) == 4:
+        algorithm = CrossCorr(axis=0)
+    else:
+        algorithm = CrossCorr()
+
+    model = algorithm.fit(data, ref)
+    registered = model.transform(data)
+    shifts = model.toarray()
+
+    return registered, shifts
