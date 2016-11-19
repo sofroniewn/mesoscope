@@ -47,9 +47,9 @@ def summarize_command(input, output, localcorr, mean, movie, ds, dt, size, overw
 
     if localcorr:
         if type(size) == tuple:
-            name = 'localcorr-%s.tif' % ''.join(map(str,size))
+            name = 'localcorr-ds%s.tif' % ''.join(map(str,size))
         else:
-            name = 'localcorr-%s.tif' % size
+            name = 'localcorr-ds%s.tif' % size
         if not isfile(join(output, name)) or overwrite:
             status('summarizing-localcorr')
             if len(lc.shape) == 4:
@@ -77,14 +77,21 @@ def summarize_command(input, output, localcorr, mean, movie, ds, dt, size, overw
         name = 'movie%s%s%s.mp4' % (dsString, dtString, pString)
         if not isfile(join(output, name)) or overwrite:
             status('summarizing-movie')
-            rate = 10
-            ppum = 0.5
-            scale = 1000
+            metafiles = glob(join(input, '*.json'))
+            if len(metafiles) == 0:
+                warn('no json metadata found in %s' % input)
+                meta = None
+            else:
+                with open(metafiles[0]) as fid:
+                    meta = json.load(fid)
+                rate = meta['volumeRate']
+                ppum = meta['rois'][0]['npixels'][1]/meta['rois'][0]['size'][1]/1000
+                scale = 100*round(meta['rois'][0]['size'][1]*1.8)
 
-            if dt is not None:
-                rate = rate*dt
+            if dt is not None and meta is not None:
+                rate = rate/dt
 
-            if ds is not None:
+            if ds is not None and meta is not None:
                 ppum = ppum/ds
 
             if len(data.shape) == 4:
@@ -99,23 +106,24 @@ def summarize_command(input, output, localcorr, mean, movie, ds, dt, size, overw
             def animate(mv, name):
                 clim = 5*percentile(mv, 90)
                 img = mv[mv.shape[0]/2,:,:]
+                nframes = mv.shape[0]-dt
 
                 fig = plt.figure(figsize=[12, 12.0*img.shape[0]/img.shape[1]])
                 fig.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=None, hspace=None)
                 ax = plt.gca()
                 im = image(img, clim=(0, clim), ax=ax)
 
-                time = ax.text(.97*img.shape[1], .04*img.shape[0], '%.1f s' % 0, color='white', fontsize=22, ha='right', fontdict={'family': 'monospace'});
-                ax.plot([.04*img.shape[1], .04*img.shape[1]+scale*ppum], [.94*img.shape[0], .94*img.shape[0]], 'w', lw=2);
-                sclae = ax.text(.04*img.shape[1]+scale*ppum/2, .97*img.shape[0], '%d um' % scale, color='white', fontsize=22, ha='center', fontdict={'family': 'monospace'});
-                plt.xlim([0, img.shape[1]]);
-                plt.ylim([img.shape[0], 0]);
-
-                nframes = mv.shape[0]-dt
+                if meta is not None:
+                    time = ax.text(.97*img.shape[1], .04*img.shape[0], '%.1f s' % 0, color='white', fontsize=22, ha='right', fontdict={'family': 'monospace'});
+                    ax.plot([.04*img.shape[1], .04*img.shape[1]+scale*ppum], [.94*img.shape[0], .94*img.shape[0]], 'w', lw=2);
+                    sclae = ax.text(.04*img.shape[1]+scale*ppum/2, .97*img.shape[0], '%d um' % scale, color='white', fontsize=22, ha='center', fontdict={'family': 'monospace'});
+                    plt.xlim([0, img.shape[1]]);
+                    plt.ylim([img.shape[0], 0]);
 
                 def update(f):
                     im.set_array(mv[dt/2+f])
-                    time.set_text('%.1f s' % ((dt/2+f)/rate))
+                    if meta is not None:
+                        time.set_text('%.1f s' % ((dt/2+f)/rate))
 
                 ani = animation.FuncAnimation(fig, update, nframes, blit=False)
                 ani.save(join(output, name), writer=writer)
