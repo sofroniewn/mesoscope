@@ -27,6 +27,9 @@ def register_command(input, output, overwrite):
     if len(glob(join(input, '*.tif'))) > 0:
         data = fromtif(input)
         ext = 'tif'
+    elif len(glob(join(input, '*.tiff'))) > 0:
+        data = fromtif(input, ext='tiff')
+        ext = 'tif'
     elif len(glob(join(input, '*.bin'))) > 0:
         data = frombinary(input)
         ext = 'bin'

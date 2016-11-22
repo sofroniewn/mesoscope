@@ -28,6 +28,8 @@ def summarize_command(input, output, localcorr, mean, movie, ds, dt, size, overw
     status('reading data from %s' % input)
     if len(glob(join(input, '*.tif'))) > 0:
         data = fromtif(input)
+    elif len(glob(join(input, '*.tiff'))) > 0:
+        data = fromtif(input, ext='tiff')
     elif len(glob(join(input, '*.bin'))) > 0:
         data = frombinary(input)
     else:

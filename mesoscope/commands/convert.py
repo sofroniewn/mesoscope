@@ -26,7 +26,7 @@ def convert_command(input, output, ext, overwrite):
     if len(glob(join(input, '*.json'))) == 0:
         error('no json metadata found in %s' % input)
         return
-    if len(glob(join(input, '*.tif'))) == 0:
+    if len(glob(join(input, '*.tif'))) == 0 and len(glob(join(input, '*.tiff'))) == 0:
         error('no tif or tiff files found in %s' % input)
         return
     data, meta = load(input, input)
