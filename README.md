@@ -56,6 +56,11 @@ mesoscope register input/ output/
 
 This will create a folder `output` with the registered images and shifts. Type `mesoscope register -h` to see other options. The registration will first compute a reference image by taking a mean of all the data. It will then perform a global cross correlation based rigid transform of the data to align each frame to this reference. If the data is a volume each z-plane will be treated independently. A `.csv` file containing the shifts will also be saved.
 
+```
+mesoscope regions input.json
+```
+
+This will create a file `image-input.tif` showing the regions. Type `mesoscope regions -h` to see other options. If given a 2d image `--image` the regions will be overlayed onto it. If given another set of regions `--compare` and a `--threshold` then the `precision`, `recall`, and `inclusion`, `exclusion` scores will be calculated and saved. The hits (green) and misses (red) will also be plotted saved as an image.
 
 # use as a module
 

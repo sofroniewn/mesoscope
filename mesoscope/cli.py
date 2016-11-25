@@ -4,6 +4,7 @@ settings = dict(help_option_names=['-h', '--help'])
 from .commands.convert import convert_command
 from .commands.summarize import summarize_command
 from .commands.register import register_command
+from .commands.regions import regions_command
 
 @click.group(options_metavar='', subcommand_metavar='<command>', context_settings=settings)
 def cli():
@@ -15,3 +16,4 @@ def cli():
 cli.add_command(convert_command)
 cli.add_command(summarize_command)
 cli.add_command(register_command)
+cli.add_command(regions_command)
