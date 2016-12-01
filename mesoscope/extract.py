@@ -1,7 +1,10 @@
 from numpy import maximum, percentile, full, nan, where, tile, inf, isnan
+from skimage.measure import regionprops
 from neurofinder import match, centers, shapes
 from regional import many
+from extraction.model import ExtractionModel
 from .utils import norm
+from .CC import CC
 
 def compare(model, modelReference, threshold):
     """
@@ -108,3 +111,29 @@ def overlay(regions, image=None, compare=None, threshold=inf, correct=False):
 
     base = tile(im,(3,1,1)).transpose(1,2,0)
     return maximum(base, mask)
+
+def filter_shape(model, min_diameter=7, max_diameter=13, min_eccentricity=0.2):
+    """
+    Filter extraction model regions based on shape criterion.
+
+    Parameters
+    ----------
+    model : ExtractionModel.
+
+    min_diameter : float, default 7.
+        Minimum allowed diameter of regions
+
+    max_diameter : float, default 13.
+        Maxium allowed diameter of regions
+
+    min_eccentricity : float, default 0.2.
+        Minimum allowed eccentricity of regions
+    """
+
+    regions = []
+    for region in model.regions:
+        mask = region.mask(fill=[1, 1, 1], background=[0, 0, 0])[:,:,0]
+        props = regionprops(mask.astype('int'))[0]
+        if (props.eccentricity > min_eccentricity) and (props.equivalent_diameter > min_diameter) and (props.equivalent_diameter < max_diameter):
+            regions.append(region)
+    return ExtractionModel(regions)
