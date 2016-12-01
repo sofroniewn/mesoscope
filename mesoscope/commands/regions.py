@@ -5,8 +5,8 @@ from os.path import join, isfile, isdir, dirname, splitext, basename
 from skimage.io import imsave, imread
 from showit import image
 from extraction import load
-from ..extract import compare as compareModels
-from ..extract import overlay
+from ..models import compare as compareModels
+from ..models import overlay
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
 @click.option('--image', nargs=1, default=None, help='Path to base image')
