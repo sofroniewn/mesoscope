@@ -37,20 +37,19 @@ def compare(model, modelReference, threshold):
             'exclusion':exclusion,
             'threshold':threshold}
 
-def overlay(regions, image=None, compare=None, threshold=inf, correct=False):
+def overlay(model, image=None, compare=None, threshold=inf, correct=False):
     """
     Overlay regions onto reference image, with optional comparison regions.
 
     Parameters
     ----------
-    regions : many regions
-        Regions from regional package to be visualized.
+    model : ExtractionModel
 
     image : array-like, optional, default = None
          Base image, can provide a 2d array,
          if unspecified will be black.
 
-    compare : many regions, default = None
+    modelCompare : ExtractionModel, default = None
         Regions to be compared to if provided.
 
     threshold : float, default = inf
@@ -67,37 +66,37 @@ def overlay(regions, image=None, compare=None, threshold=inf, correct=False):
             im = image
         size = im.shape
     else:
-        size = (max([r.bbox[2] for r in regions])+1, max([r.bbox[3] for r in regions])+1)
+        size = (max([r.bbox[2] for r in model.regions])+1, max([r.bbox[3] for r in model.regions])+1)
         if compare is not None:
-            sizeCompare = (max([r.bbox[2] for r in compare])+1, max([r.bbox[3] for r in compare])+1)
+            sizeCompare = (max([r.bbox[2] for r in compare.regions])+1, max([r.bbox[3] for r in compare.regions])+1)
             size = (maximum(size[0], sizeCompare[0]), maximum(size[1], sizeCompare[1]))
         im = full(size, 0.0)
 
 
     if compare is not None:
-        matches = match(regions, compare, threshold)
-        matchesCompare = full(compare.count,nan)
+        matches = match(model.regions, compare.regions, threshold)
+        matchesCompare = full(compare.regions.count,nan)
 
         for ii in where(~isnan(matches))[0]:
             matchesCompare[matches[ii]] = ii
 
         if any(~isnan(matches)):
-            hits = many([regions[i] for i in where(~isnan(matches))[0]])
+            hits = many([model.regions[i] for i in where(~isnan(matches))[0]])
             h = hits.mask(size, background='black', fill=None, stroke=[0, 0.7, 0])
         else:
             h = full((size[0], size[1], 3), 0.0)
         if any(isnan(matches)):
-            falseAlarms = many([regions[i] for i in where(isnan(matches))[0]])
+            falseAlarms = many([model.regions[i] for i in where(isnan(matches))[0]])
             fA = falseAlarms.mask(size, background='black', fill=None, stroke=[0.7, 0, 0])
         else:
             fA = full((size[0], size[1], 3), 0.0)
         if any(~isnan(matchesCompare)):
-            truePositives = many([compare[i] for i in where(~isnan(matchesCompare))[0]])
+            truePositives = many([compare.regions[i] for i in where(~isnan(matchesCompare))[0]])
             tP = truePositives.mask(size, background='black', fill=None, stroke=[0, 0, 0.7])
         else:
             tP = full((size[0], size[1], 3), 0.0)
         if any(isnan(matchesCompare)):
-            misses = many([compare[i] for i in where(isnan(matchesCompare))[0]])
+            misses = many([compare.regions[i] for i in where(isnan(matchesCompare))[0]])
             m = misses.mask(size, background='black', fill=None, stroke=[0.7, 0.7, 0])
         else:
             m = full((size[0], size[1], 3), 0.0)
@@ -106,7 +105,7 @@ def overlay(regions, image=None, compare=None, threshold=inf, correct=False):
         else:
             mask = maximum(maximum(maximum(tP, fA), h), m)
     else:
-        mask = regions.mask(size, background='black', fill=None, stroke=[0, 0.7, 0])
+        mask = model.regions.mask(size, background='black', fill=None, stroke=[0, 0.7, 0])
 
 
     base = tile(im,(3,1,1)).transpose(1,2,0)
