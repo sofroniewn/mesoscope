@@ -6,6 +6,7 @@ from numpy import inf
 from glob import glob
 from shutil import rmtree
 from os.path import join, isdir
+from .common import success, status, error
 from .. import load, convert
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
@@ -43,12 +44,3 @@ def convert_command(input, output, ext, overwrite):
     with open(join(output, 'metadata.json'), 'w') as f:
       f.write(json.dumps(newmeta, indent=2))
     success('data written')
-
-def success(msg):
-    click.echo('[' + click.style('success', fg='green') + '] ' + msg)
-
-def status(msg):
-    click.echo('[' + click.style('convert', fg='blue') + '] ' + msg)
-
-def error(msg):
-    click.echo('[' + click.style('error', fg='red') + '] ' + msg)

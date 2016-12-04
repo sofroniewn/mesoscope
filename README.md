@@ -62,6 +62,8 @@ mesoscope regions input.json
 
 This will create a file `image-input.tif` showing the regions. Type `mesoscope regions -h` to see other options. If given a 2d image `--image` the regions will be overlayed onto it. If given another set of regions `--compare` and a `--threshold` then the `precision`, `recall`, and `inclusion`, `exclusion` scores will be calculated and saved. The hits (green) and misses (red) will also be plotted saved as an image.
 
+For all commands, the option `--master spark://xxxxx:7077` allows you to specify a Spark cluster master node by providing the URL of the master node. When using this option, any paths to input and output folders should be given with full path names.
+
 # use as a module
 
 The `mesoscope` package includes the following methods

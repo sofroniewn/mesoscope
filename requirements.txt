@@ -1,4 +1,7 @@
 thunder-python >= 1.4.2
 thunder-registration >= 1.0.1
+thunder-extraction >= 1.2.1
 click >= 6.6
 showit >= 1.1.1
+regional >= 1.1.2
+neurofinder-python >= 1.1.1

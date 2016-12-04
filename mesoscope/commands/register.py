@@ -8,14 +8,18 @@ from shutil import rmtree
 from os.path import join, isdir, isfile
 from pandas import DataFrame
 from thunder.images import fromtif, frombinary
+from .common import success, status, error, warn, setup_spark
 from .. import register, reference
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
+@click.option('--master', is_flag=False, nargs=1, help='URL of the master node of a Spark cluster')
 @click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('register', short_help='register input directory', options_metavar='<options>')
-def register_command(input, output, overwrite):
+def register_command(input, output, overwrite, master):
+
     output = input + '_registered' if output is None else output
+
     if isdir(output) and not overwrite:
         error('directory already exists and overwrite is false')
         return
@@ -23,15 +27,17 @@ def register_command(input, output, overwrite):
         rmtree(output)
         mkdir(output)
 
+    engine = setup_spark(master)
+
     status('reading data from %s' % input)
     if len(glob(join(input, '*.tif'))) > 0:
-        data = fromtif(input)
+        data = fromtif(input, engine=engine)
         ext = 'tif'
     elif len(glob(join(input, '*.tiff'))) > 0:
-        data = fromtif(input, ext='tiff')
+        data = fromtif(input, ext='tiff', engine=engine)
         ext = 'tif'
     elif len(glob(join(input, '*.bin'))) > 0:
-        data = frombinary(input)
+        data = frombinary(input, engine=engine)
         ext = 'bin'
     else:
         error('no tif or binary files found in %s' % input)
@@ -54,15 +60,3 @@ def register_command(input, output, overwrite):
 
 
     success('registration complete')
-
-def success(msg):
-    click.echo('[' + click.style('success', fg='green') + '] ' + msg)
-
-def status(msg):
-    click.echo('[' + click.style('convert', fg='blue') + '] ' + msg)
-
-def error(msg):
-    click.echo('[' + click.style('error', fg='red') + '] ' + msg)
-
-def warn(msg):
-    click.echo('[' + click.style('warn', fg='yellow') + '] ' + msg)
