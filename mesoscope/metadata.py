@@ -35,6 +35,7 @@ def merge(meta):
         ('npixels',list(npixels)),
         ('depths', depths)])]
     meta['nrois'] = 1
+    meta['nstripes'] = len(meta['oder'])
 
     del meta['merge']
     del meta['order']

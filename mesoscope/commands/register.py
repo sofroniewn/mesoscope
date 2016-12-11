@@ -8,7 +8,7 @@ from shutil import rmtree
 from os.path import join, isdir, isfile
 from pandas import DataFrame
 from thunder.images import fromtif, frombinary
-from .. import register, reference
+from ..registations import register
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
 @click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
@@ -37,10 +37,8 @@ def register_command(input, output, overwrite):
         error('no tif or binary files found in %s' % input)
         return
 
-    status('computing reference')
-    ref = reference(data, algorithm='mean')
     status('registering')
-    newdata, shifts = register(data, ref)
+    newdata, shifts = register(data)
 
     if ext == 'tif':
         newdata.totif(output, overwrite=overwrite)

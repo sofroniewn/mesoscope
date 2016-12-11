@@ -53,7 +53,6 @@ def test_downsample_shape():
 
 def test_register_shape():
     data = fromtif('test/resources/output')
-    ref = reference(data)
-    registered, shifts =  register(data, ref)
+    registered, shifts =  register(data)
     assert registered.shape == (23, 464, 576)
     assert shifts.shape == (23, 2)
