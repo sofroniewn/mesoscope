@@ -9,6 +9,7 @@ from os.path import join, isdir, isfile
 from thunder.images import fromtif, frombinary
 from skimage.io import imsave
 from .. import downsample
+from .common import success, status, error, warn
 from showit import image
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
@@ -141,15 +142,3 @@ def summarize_command(input, output, localcorr, mean, movie, ds, dt, size, overw
             warn('%s already exists and overwrite is false' % name)
 
     success('summary complete')
-
-def success(msg):
-    click.echo('[' + click.style('success', fg='green') + '] ' + msg)
-
-def status(msg):
-    click.echo('[' + click.style('convert', fg='blue') + '] ' + msg)
-
-def error(msg):
-    click.echo('[' + click.style('error', fg='red') + '] ' + msg)
-
-def warn(msg):
-    click.echo('[' + click.style('warn', fg='yellow') + '] ' + msg)
