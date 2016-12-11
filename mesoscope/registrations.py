@@ -54,11 +54,12 @@ def register_blocks_piecewise(data, size = (64, 64)):
     shifts = blocks.map_generic(reg_shifts)
 
     src_cols = linspace(0, data.shape[1], shifts.shape[0]+1)
-    src_cols = [x-src_cols[0]/2 for x in src_cols]
+    src_cols = [x+src_cols[0]/2 for x in src_cols]
     src_cols = src_cols[:-1]
     src_rows = linspace(0, data.shape[2], shifts.shape[1]+1)
-    src_rows = [x-src_rows[0]/2 for x in src_rows]
+    src_rows = [x+src_rows[0]/2 for x in src_rows]
     src_rows = src_rows[:-1]
+
     src_rows, src_cols = meshgrid(src_rows, src_cols)
     src = dstack([src_cols.flat, src_rows.flat])[0]
 
