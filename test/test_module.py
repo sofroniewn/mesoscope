@@ -1,5 +1,6 @@
 from numpy import allclose, inf
-from mesoscope import load, convert, reference, downsample, register
+from mesoscope import load, convert, downsample
+from mesoscope.registrations import register
 from thunder.images import fromtif
 
 def test_load_meta():
