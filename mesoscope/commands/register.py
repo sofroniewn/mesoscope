@@ -8,7 +8,7 @@ from shutil import rmtree
 from os.path import join, isdir, isfile
 from pandas import DataFrame
 from thunder.images import fromtif, frombinary
-from ..registations import register
+from ..registrations import register
 from .common import success, status, error, warn, setup_spark
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
