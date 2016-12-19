@@ -57,10 +57,10 @@ def parse(header):
 
     if header['hFastZ']['enable']:
         depths = header['hFastZ']['userZs']
-        meta['volume'] = False
     else:
         depths = header['hStackManager']['zs']
-        meta['volume'] = True
+
+    meta['fastZ'] = header['hFastZ']['enable']
 
     if type(depths) == int:
         meta['nplanes'] = 1
@@ -76,11 +76,19 @@ def parse(header):
 
     meta['volumeRate'] = header['hRoiManager']['scanFrameRate']
 
-    meta['rois'] = [dict([('center', rescale(roi['scanfields']['centerXY'], objective_resolution)),
-            ('size', rescale(roi['scanfields']['sizeXY'], objective_resolution)),
-            ('npixels',roi['scanfields']['pixelResolutionXY']),
-            ('depths', roi['zs'])])
-             for roi in header['imagingRoiGroup']['rois']]
+    if type(header['imagingRoiGroup']['rois']) == list:
+        meta['rois'] = [dict([('center', rescale(roi['scanfields']['centerXY'], objective_resolution)),
+                ('size', rescale(roi['scanfields']['sizeXY'], objective_resolution)),
+                ('npixels',roi['scanfields']['pixelResolutionXY']),
+                ('depths', roi['zs'])])
+                for roi in header['imagingRoiGroup']['rois']]
+    else:
+        roi = header['imagingRoiGroup']['rois']
+        meta['rois'] = [dict([('center', rescale(roi['scanfields']['centerXY'], objective_resolution)),
+                ('size', rescale(roi['scanfields']['sizeXY'], objective_resolution)),
+                ('npixels',roi['scanfields']['pixelResolutionXY']),
+                ('depths', roi['zs'])])]
+
     meta['nrois'] = len(meta['rois'])
     meta['nlines'] = meta['rois'][0]['npixels'][1]
 

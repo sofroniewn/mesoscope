@@ -60,7 +60,7 @@ def convert(data, metadata):
         newdata = data.map(lambda x : reshape(x, nrois, nlines, order))
     else:
         newdata = data.map(lambda x : split(x, nrois, nlines))
-    if metadata['volume'] and metadata['logFramesPerFile'] == metadata['framesPerSlice']:
+    if not metadata['fastZ'] and metadata['logFramesPerFile'] == metadata['framesPerSlice']:
         newdata = fromarray(newdata.values.swapaxes(0,1))
     newmetadata = merge(metadata)
     newmetadata['shape'] = newdata.shape
