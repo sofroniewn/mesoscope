@@ -31,7 +31,7 @@ def load(path, metapath=None, engine=None):
 
     if metadata['logFramesPerFile'] == 1:
         data = load_data(path, engine=engine)
-    elif metadata['volume'] and metadata['logFramesPerFile'] == metadata['framesPerSlice']:
+    elif metadata['fastZ'] and metadata['logFramesPerFile'] == metadata['framesPerSlice']:
         data = load_data(path, engine=engine)
     else:
         data = load_data(path, nplanes=metadata['nplanes'], engine=engine)
