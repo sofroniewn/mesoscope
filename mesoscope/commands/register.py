@@ -53,8 +53,8 @@ def register_command(input, output, overwrite, master):
     else:
         error('extenstion %s not recognized' % ext)
 
-    shifts = DataFrame(shifts)
-    shifts.to_csv(join(output, 'shifts.csv'))
+    #shifts = DataFrame(shifts)
+    #shifts.to_csv(join(output, 'shifts.csv'))
 
 
     success('registration complete')
