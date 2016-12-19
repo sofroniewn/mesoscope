@@ -57,8 +57,10 @@ def parse(header):
 
     if header['hFastZ']['enable']:
         depths = header['hFastZ']['userZs']
+        meta['volume'] = False
     else:
         depths = header['hStackManager']['zs']
+        meta['volume'] = True
 
     if type(depths) == int:
         meta['nplanes'] = 1
@@ -69,7 +71,7 @@ def parse(header):
 
     meta['depths'] = depths
 
-    meta['averaging'] = header['hStackManager']['framesPerSlice']
+    meta['framesPerSlice'] = header['hStackManager']['framesPerSlice']
     meta['power'] = header['hBeams']['powers']
 
     meta['volumeRate'] = header['hRoiManager']['scanFrameRate']
