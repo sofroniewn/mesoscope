@@ -8,13 +8,15 @@ from shutil import rmtree
 from os.path import join, isdir
 from .common import success, status, error
 from .. import load, convert
+from ..bidi import correct
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
+@click.option('--bidi', is_flag=True, default=False, help='Do bidi correction')
 @click.option('--ext', nargs=1, default='tif')
 @click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('convert', short_help='process raw data by converting into images', options_metavar='<options>')
-def convert_command(input, output, ext, overwrite):
+def convert_command(input, output, ext, bidi, overwrite):
     output = input + '_converted' if output is None else output
     if isdir(output) and not overwrite:
         error('directory already exists and overwrite is false')
@@ -33,6 +35,15 @@ def convert_command(input, output, ext, overwrite):
     data, meta = load(input, input)
     status('converting')
     newdata, newmeta = convert(data, meta)
+
+    if bidi:
+        status('starting bidi correction')
+        if len(newdata.shape) > 4:
+            error('Data length %d currently not supported' % len(data.shape))
+        else:
+            newdata, amount = correct(newdata)
+            status('shifted %s pixels' % amount)
+
     status('writing data to %s' % output)
     if ext == 'tif':
         newdata.clip(0, inf).astype('uint16').totif(output, overwrite=overwrite)
