@@ -2,12 +2,12 @@ import click
 from json import dumps
 from os import mkdir
 from os.path import join, isfile, isdir, dirname, splitext, basename
-from skimage.io import imsave, imread
-from showit import image
-from extraction import load
+from glob import glob
+from thunder.images import fromtif
+from extraction import load, NMF
 from .common import success, status, error, warn, setup_spark
-from ..models import compare as compareModels
-from ..models import overlay
+from ..models import overlay, filter_shape
+from ..CC import CC
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
 @click.option('--url', is_flag=False, nargs=1, help='URL of the master node of a Spark cluster')
@@ -20,11 +20,10 @@ def extract_command(input, output, diameter, method, url, overwrite):
 
     output = input + '_extracted' if output is None else output
 
-    if isdir(output) and not overwrite:
-        error('directory already exists and overwrite is false')
+    if isfile(join(output, 'regions-' + method + '.json')) and not overwrite:
+        error('file already exists and overwrite is false')
         return
-    elif isdir(output) and overwrite:
-        rmtree(output)
+    elif not isdir(output):
         mkdir(output)
 
     engine = setup_spark(url)
@@ -43,13 +42,19 @@ def extract_command(input, output, diameter, method, url, overwrite):
         return
 
     status('extracting')
-    # switch(method):
-    #     case 'CC':
-    #
-    #     case 'NMF':
-    #
-    #     otherwise:
-    #         error('extraction method %s not recognized' % method)
+    if method == 'CC':
+        algorithm = CC(diameter=diameter, clip_limit=0.04, theshold=0.2, sigma_blur=1, boundary=(1,1))
+        unmerged = algorithm.fit(data)
+        model = unmerged.merge(overlap=0.20, max_iter=3, k_nearest=10)
+        model = filter_shape(model, min_diameter = 0.7*diameter, max_diameter = 1.3*diameter, min_eccentricity = 0.2)
+    elif method == 'NMF':
+        algorithm = NMF(k=10, percentile=99, max_iter=50, overlap=0.1)
+        unmerged = algorithm.fit(data, chunk_size=(50,50), padding=(25,25))
+        model = unmerged.merge(0.1)
+        model = filter_shape(model, min_diameter = 0.7*diameter, max_diameter = 1.3*diameter, min_eccentricity = 0.2)
+    else:
+        error('extraction method %s not recognized' % method)
 
+    model.save(join(output, 'regions-' + method + '.json'))
 
-    success('extract complete')
+    success('extraction complete')
