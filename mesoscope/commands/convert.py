@@ -11,7 +11,6 @@ from .. import load, convert
 from ..bidi import correct
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
-@click.option('--bidi', is_flag=True, default=False, help='Do bidi correction')
 @click.option('--ext', nargs=1, default='tif')
 @click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
@@ -35,14 +34,6 @@ def convert_command(input, output, ext, bidi, overwrite):
     data, meta = load(input, input)
     status('converting')
     newdata, newmeta = convert(data, meta)
-
-    if bidi:
-        status('starting bidi correction')
-        if len(newdata.shape) > 4:
-            error('Data length %d currently not supported' % len(data.shape))
-        else:
-            newdata, amount = correct(newdata)
-            status('shifted %s pixels' % amount)
 
     status('writing data to %s' % output)
     if ext == 'tif':

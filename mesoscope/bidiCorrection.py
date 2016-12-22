@@ -2,15 +2,17 @@ from numpy import pad, zeros, ceil, floor
 from thunder.images import fromarray
 from registration import CrossCorr
 
-def correct(data):
+def correct(data, amount=None):
     if len(data.shape) == 3:
         img = data[data.shape[0]/2].toarray()
-        amount = estimate(img)
+        if amount==None:
+            amount = estimate(img)
         return data.map(lambda x: shift(x, amount)), amount
     elif len(data.shape) == 4:
         img = data.mean().toarray()
         img = img[img.shape[0]/2]
-        amount = estimate(img)
+        if amount==None:
+            amount = estimate(img)
         return data.map(lambda x: map(lambda y: shift(y, amount), x)), amount
     else:
         print('Data length %d currently not supported' % len(data.shape))
