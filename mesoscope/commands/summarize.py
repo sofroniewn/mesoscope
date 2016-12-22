@@ -61,7 +61,7 @@ def summarize_command(input, output, localcorr, mean, movie, ds, dt, size, url, 
             name = 'localcorr-ds%s.tif' % size
         if not isfile(join(output, name)) or overwrite:
             status('summarizing-localcorr')
-            if len(lc.shape) == 4:
+            if len(data.shape) == 4:
                 size = (1, size, size)
             lc = data.localcorr(size)
             imsave(join(output, name), lc.astype('float32'), plugin='tifffile', photometric='minisblack')
