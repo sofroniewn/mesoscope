@@ -11,11 +11,12 @@ from skimage.io import imsave
 from .common import success, status, error, warn
 from ..bidiCorrection import correct
 
+@click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
 @click.option('--amount', nargs=1, default=None, type=int, help='Int bidirectional shift')
 @click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('bidi', short_help='bidirectionaly correct images', options_metavar='<options>')
-def summarize_command(input, output, localcorr, mean, movie, ds, dt, size, overwrite):
+def bidi_command(input, output, amount, overwrite):
     output = input + '_bidi' if output is None else output
 
     status('reading data from %s' % input)
