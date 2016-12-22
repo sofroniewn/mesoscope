@@ -8,11 +8,13 @@ from shutil import rmtree, copy
 from os.path import join, isdir, isfile
 from pandas import DataFrame
 from thunder.images import fromtif, frombinary
-from ..registrations import register
+from ..registrations import register, register_blocks, register_blocks_piecewise
 from .common import success, status, error, warn, setup_spark
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
 @click.option('--url', is_flag=False, nargs=1, help='URL of the master node of a Spark cluster')
+@click.option('--method', nargs=1, default='normal', help='Registaion method')
+@click.option('--size', nargs=1, default=32, type=int, help='Size of blocks')
 @click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('register', short_help='register input directory', options_metavar='<options>')
@@ -43,7 +45,15 @@ def register_command(input, output, overwrite, url):
         return
 
     status('registering')
-    newdata, shifts = register(data)
+    if method == normal:
+        newdata, shifts = register(data)
+    elif method == blocks:
+        newdata = register_blocks(data, size=(size, size))
+    elif method == piecewise:
+        newdata = register_blocks_piecewise(data, size=(size, size))
+    else:
+        error('registration method %s not recognized' % method)
+
 
     if ext == 'tif':
         newdata.totif(output, overwrite=overwrite)
