@@ -8,7 +8,6 @@ from shutil import rmtree
 from os.path import join, isdir
 from .common import success, status, error
 from .. import load, convert
-from ..bidi import correct
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
 @click.option('--ext', nargs=1, default='tif')

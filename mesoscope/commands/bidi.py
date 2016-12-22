@@ -9,6 +9,7 @@ from os.path import join, isdir, isfile
 from thunder.images import fromtif, frombinary
 from skimage.io import imsave
 from .common import success, status, error, warn
+from ..bidiCorrection import correct
 
 @click.option('--amount', nargs=1, default=None, type=int, help='Int bidirectional shift')
 @click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
