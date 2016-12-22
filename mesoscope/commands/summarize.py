@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 @click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('summarize', short_help='create summary images', options_metavar='<options>')
-def summarize_command(input, output, localcorr, mean, movie, ds, dt, size, overwrite):
+def summarize_command(input, output, localcorr, mean, movie, ds, dt, size, url, overwrite):
     output = input + '_summary' if output is None else output
 
     engine = setup_spark(url)

@@ -16,7 +16,7 @@ from .common import success, status, error, warn, setup_spark
 @click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('register', short_help='register input directory', options_metavar='<options>')
-def register_command(input, output, overwrite, master):
+def register_command(input, output, overwrite, url):
 
     output = input + '_registered' if output is None else output
 

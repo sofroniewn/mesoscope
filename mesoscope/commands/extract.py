@@ -16,7 +16,7 @@ from ..models import overlay
 @click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('extract', short_help='performe source extraction', options_metavar='<options>')
-def extract_command(input, output, diameter, method, overwrite):
+def extract_command(input, output, diameter, method, url, overwrite):
     status('reading data from %s' % input)
 
 

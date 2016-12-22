@@ -15,7 +15,7 @@ from .. import load, convert
 @click.option('--url', is_flag=False, nargs=1, help='URL of the master node of a Spark cluster')
 @click.option('--ext', nargs=1, default='tif')
 @click.command('convert', short_help='process raw data by converting into images', options_metavar='<options>')
-def convert_command(input, output, ext, bidi, overwrite):
+def convert_command(input, output, ext, url, overwrite):
     output = input + '_converted' if output is None else output
     if isdir(output) and not overwrite:
         error('directory already exists and overwrite is false')

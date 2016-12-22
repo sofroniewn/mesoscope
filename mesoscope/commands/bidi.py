@@ -17,7 +17,7 @@ from ..bidiCorrection import correct
 @click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('bidi', short_help='bidirectionaly correct images', options_metavar='<options>')
-def bidi_command(input, output, amount, overwrite):
+def bidi_command(input, output, amount, url, overwrite):
     output = input + '_bidi' if output is None else output
 
     engine = setup_spark(url)
