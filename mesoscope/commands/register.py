@@ -4,7 +4,7 @@ import click
 from os import mkdir
 from numpy import inf, percentile
 from glob import glob
-from shutil import rmtree
+from shutil import rmtree, copy
 from os.path import join, isdir, isfile
 from pandas import DataFrame
 from thunder.images import fromtif, frombinary
@@ -51,6 +51,12 @@ def register_command(input, output, overwrite, url):
         newdata.tobinary(output, overwrite=overwrite)
     else:
         error('extenstion %s not recognized' % ext)
+
+    metafiles = glob(join(input, '*.json'))
+    if len(metafiles) > 0:
+        status('copying metadata')
+        for f in metafiles:
+            copy(f, output)
 
     #shifts = DataFrame(shifts)
     #shifts.to_csv(join(output, 'shifts.csv'))

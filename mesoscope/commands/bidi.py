@@ -4,7 +4,7 @@ import click
 from os import mkdir
 from numpy import inf, percentile
 from glob import glob
-from shutil import rmtree
+from shutil import rmtree, copy
 from os.path import join, isdir, isfile
 from thunder.images import fromtif, frombinary
 from skimage.io import imsave
@@ -54,5 +54,11 @@ def bidi_command(input, output, amount, url, overwrite):
         newdata.tobinary(output, overwrite=overwrite)
     else:
         error('extenstion %s not recognized' % ext)
+
+    metafiles = glob(join(input, '*.json'))
+    if len(metafiles) > 0:
+        status('copying metadata')
+        for f in metafiles:
+            copy(f, output)
 
     success('bidi complete')

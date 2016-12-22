@@ -17,7 +17,39 @@ from ..models import overlay
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('extract', short_help='performe source extraction', options_metavar='<options>')
 def extract_command(input, output, diameter, method, url, overwrite):
+
+    output = input + '_extracted' if output is None else output
+
+    if isdir(output) and not overwrite:
+        error('directory already exists and overwrite is false')
+        return
+    elif isdir(output) and overwrite:
+        rmtree(output)
+        mkdir(output)
+
+    engine = setup_spark(url)
     status('reading data from %s' % input)
+    if len(glob(join(input, '*.tif'))) > 0:
+        data = fromtif(input, engine=engine)
+        ext = 'tif'
+    elif len(glob(join(input, '*.tiff'))) > 0:
+        data = fromtif(input, ext='tiff', engine=engine)
+        ext = 'tif'
+    elif len(glob(join(input, '*.bin'))) > 0:
+        data = frombinary(input, engine=engine)
+        ext = 'bin'
+    else:
+        error('no tif or binary files found in %s' % input)
+        return
+
+    status('extracting')
+    # switch(method):
+    #     case 'CC':
+    #
+    #     case 'NMF':
+    #
+    #     otherwise:
+    #         error('extraction method %s not recognized' % method)
 
 
     success('extract complete')

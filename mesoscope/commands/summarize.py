@@ -4,7 +4,7 @@ import click
 from os import mkdir
 from numpy import inf, percentile
 from glob import glob
-from shutil import rmtree
+from shutil import rmtree, copy
 from os.path import join, isdir, isfile
 from thunder.images import fromtif, frombinary
 from skimage.io import imsave
@@ -146,5 +146,11 @@ def summarize_command(input, output, localcorr, mean, movie, ds, dt, size, url, 
                 animate(result, name)
         else:
             warn('%s already exists and overwrite is false' % name)
+
+        metafiles = glob(join(input, '*.json'))
+        if len(metafiles) > 0:
+            status('copying metadata')
+            for f in metafiles:
+                copy(f, output)
 
     success('summary complete')
