@@ -9,8 +9,8 @@ from os.path import join, isdir
 from .common import success, status, error
 from .. import load, convert
 
-@click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
+@click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
 @click.option('--url', is_flag=False, nargs=1, help='URL of the master node of a Spark cluster')
 @click.option('--ext', nargs=1, default='tif')
