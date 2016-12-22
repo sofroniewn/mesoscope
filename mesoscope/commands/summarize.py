@@ -9,7 +9,7 @@ from os.path import join, isdir, isfile
 from thunder.images import fromtif, frombinary
 from skimage.io import imsave
 from .. import downsample
-from .common import success, status, error, warn
+from .common import success, status, error, warn, setup_spark
 from showit import image
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt

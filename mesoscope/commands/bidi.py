@@ -8,7 +8,7 @@ from shutil import rmtree
 from os.path import join, isdir, isfile
 from thunder.images import fromtif, frombinary
 from skimage.io import imsave
-from .common import success, status, error, warn
+from .common import success, status, error, warn, setup_spark
 from ..bidiCorrection import correct
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')

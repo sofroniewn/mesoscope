@@ -6,7 +6,7 @@ from numpy import inf
 from glob import glob
 from shutil import rmtree
 from os.path import join, isdir
-from .common import success, status, error
+from .common import success, status, error, warn, setup_spark
 from .. import load, convert
 
 @click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
