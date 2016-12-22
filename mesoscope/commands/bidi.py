@@ -19,6 +19,12 @@ from ..bidiCorrection import correct
 @click.command('bidi', short_help='bidirectionaly correct images', options_metavar='<options>')
 def bidi_command(input, output, amount, url, overwrite):
     output = input + '_bidi' if output is None else output
+    if isdir(output) and not overwrite:
+        error('directory already exists and overwrite is false')
+        return
+    elif isdir(output) and overwrite:
+        rmtree(output)
+        mkdir(output)
 
     engine = setup_spark(url)
     status('reading data from %s' % input)
@@ -34,9 +40,6 @@ def bidi_command(input, output, amount, url, overwrite):
     else:
         error('no tif or binary files found in %s' % input)
         return
-
-    if not isdir(output):
-        mkdir(output)
 
     status('starting bidi correction')
     if len(data.shape) > 4:
