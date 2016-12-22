@@ -11,14 +11,16 @@ from skimage.io import imsave
 from .common import success, status, error, warn
 from ..bidiCorrection import correct
 
-@click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
-@click.option('--amount', nargs=1, default=None, type=int, help='Int bidirectional shift')
-@click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
+@click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
+@click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
+@click.option('--url', is_flag=False, nargs=1, help='URL of the master node of a Spark cluster')
+@click.option('--amount', nargs=1, default=None, type=int, help='Int bidirectional shift')
 @click.command('bidi', short_help='bidirectionaly correct images', options_metavar='<options>')
 def bidi_command(input, output, amount, overwrite):
     output = input + '_bidi' if output is None else output
 
+    engine = setup_spark(url)
     status('reading data from %s' % input)
     if len(glob(join(input, '*.tif'))) > 0:
         data = fromtif(input, engine=engine)

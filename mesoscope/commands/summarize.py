@@ -14,25 +14,31 @@ from showit import image
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 
+@click.argument('input', nargs=1, metavar='<input directory>', required=True)
+@click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
+@click.option('--url', is_flag=False, nargs=1, help='URL of the master node of a Spark cluster')
 @click.option('--localcorr', is_flag=True, help='Compute local correlation')
 @click.option('--mean', is_flag=True, help='Compute mean')
 @click.option('--movie', is_flag=True, help='Compute movie')
 @click.option('--size', nargs=1, default=2, type=int, help='Int neighborhood for local correlation')
 @click.option('--ds',  nargs=1, default=None, type=int, help='Int spatial downsample factor')
 @click.option('--dt', nargs=1, default=None, type=int, help='Int temporal downsample factor')
-@click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
-@click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('summarize', short_help='create summary images', options_metavar='<options>')
 def summarize_command(input, output, localcorr, mean, movie, ds, dt, size, overwrite):
     output = input + '_summary' if output is None else output
+
+    engine = setup_spark(url)
     status('reading data from %s' % input)
     if len(glob(join(input, '*.tif'))) > 0:
-        data = fromtif(input)
+        data = fromtif(input, engine=engine)
+        ext = 'tif'
     elif len(glob(join(input, '*.tiff'))) > 0:
-        data = fromtif(input, ext='tiff')
+        data = fromtif(input, ext='tiff', engine=engine)
+        ext = 'tif'
     elif len(glob(join(input, '*.bin'))) > 0:
-        data = frombinary(input)
+        data = frombinary(input, engine=engine)
+        ext = 'bin'
     else:
         error('no tif or binary files found in %s' % input)
         return

@@ -12,7 +12,7 @@ from ..registrations import register
 from .common import success, status, error, warn, setup_spark
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
-@click.option('--master', is_flag=False, nargs=1, help='URL of the master node of a Spark cluster')
+@click.option('--url', is_flag=False, nargs=1, help='URL of the master node of a Spark cluster')
 @click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('register', short_help='register input directory', options_metavar='<options>')
@@ -27,8 +27,7 @@ def register_command(input, output, overwrite, master):
         rmtree(output)
         mkdir(output)
 
-    engine = setup_spark(master)
-
+    engine = setup_spark(url)
     status('reading data from %s' % input)
     if len(glob(join(input, '*.tif'))) > 0:
         data = fromtif(input, engine=engine)

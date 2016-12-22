@@ -9,12 +9,12 @@ from .common import success, status, error, warn
 from ..models import compare as compareModels
 from ..models import overlay
 
+@click.argument('input', nargs=1, metavar='<input directory>', required=True)
+@click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
 @click.option('--image', nargs=1, default=None, help='Path to base image')
 @click.option('--compare', nargs=1, default=None, help='Path to regions for comparison')
 @click.option('--threshold', nargs=1, default=5, type=float, help='Threshold for comparison')
-@click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
-@click.argument('input', nargs=1, metavar='<input path>', required=True)
 @click.command('regions', short_help='analyze regions', options_metavar='<options>')
 def regions_command(input, output, image, compare, threshold, overwrite):
     status('reading data from %s' % input)

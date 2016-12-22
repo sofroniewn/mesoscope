@@ -9,10 +9,11 @@ from os.path import join, isdir
 from .common import success, status, error
 from .. import load, convert
 
-@click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
-@click.option('--ext', nargs=1, default='tif')
-@click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
+@click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
+@click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
+@click.option('--url', is_flag=False, nargs=1, help='URL of the master node of a Spark cluster')
+@click.option('--ext', nargs=1, default='tif')
 @click.command('convert', short_help='process raw data by converting into images', options_metavar='<options>')
 def convert_command(input, output, ext, bidi, overwrite):
     output = input + '_converted' if output is None else output
@@ -23,6 +24,7 @@ def convert_command(input, output, ext, bidi, overwrite):
         rmtree(output)
         mkdir(output)
 
+    engine = setup_spark(url)
     status('reading data from %s' % input)
     if len(glob(join(input, '*.json'))) == 0:
         error('no json metadata found in %s' % input)
@@ -30,7 +32,7 @@ def convert_command(input, output, ext, bidi, overwrite):
     if len(glob(join(input, '*.tif'))) == 0 and len(glob(join(input, '*.tiff'))) == 0:
         error('no tif or tiff files found in %s' % input)
         return
-    data, meta = load(input, input)
+    data, meta = load(input, input, engine=engine)
     status('converting')
     newdata, newmeta = convert(data, meta)
 
