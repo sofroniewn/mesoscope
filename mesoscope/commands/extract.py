@@ -3,7 +3,7 @@ from json import dumps
 from os import mkdir
 from os.path import join, isfile, isdir, dirname, splitext, basename
 from glob import glob
-from thunder.images import fromtif
+from thunder.images import fromtif, frombinary
 from extraction import load, NMF
 from .common import success, status, error, warn, setup_spark
 from ..models import overlay, filter_shape
