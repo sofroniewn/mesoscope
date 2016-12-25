@@ -109,8 +109,7 @@ def summarize_command(input, output, localcorr, mean, movie, ds, dt, size, url, 
             if dt == None:
                 dt = 0
 
-            Writer = animation.writers['ffmpeg']
-            writer = Writer(fps=15, metadata=dict(artist='Me'), bitrate=40000)
+            writer = animation.FFMpegWriter(fps=15, metadata=dict(artist='Me'), bitrate=40000)
 
             def animate(mv, name):
                 clim = 5*percentile(mv, 90)
