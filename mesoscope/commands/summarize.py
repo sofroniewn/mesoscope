@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('Agg')
 import os
 import json
 import click
@@ -11,8 +13,6 @@ from skimage.io import imsave
 from .. import downsample
 from .common import success, status, error, warn, setup_spark
 from showit import image
-import matplotlib
-matplotlib.use('Agg')
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 
