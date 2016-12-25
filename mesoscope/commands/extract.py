@@ -45,13 +45,12 @@ def extract_command(input, output, diameter, method, url, overwrite):
     if method == 'CC':
         algorithm = CC(diameter=diameter, clip_limit=0.04, theshold=0.2, sigma_blur=1, boundary=(1,1))
         unmerged = algorithm.fit(data)
-        model = unmerged.merge(overlap=0.20, max_iter=3, k_nearest=10)
+        model = unmerged.merge(0.1)
         model = filter_shape(model, min_diameter = 0.7*diameter, max_diameter = 1.3*diameter, min_eccentricity = 0.2)
     elif method == 'NMF':
         algorithm = NMF(k=10, percentile=99, max_iter=50, overlap=0.1)
         unmerged = algorithm.fit(data, chunk_size=(50,50), padding=(25,25))
-        model = unmerged.merge(0.1)
-        model = filter_shape(model, min_diameter = 0.7*diameter, max_diameter = 1.3*diameter, min_eccentricity = 0.2)
+        model = unmerged.merge(overlap=0.20, max_iter=3, k_nearest=10)
     else:
         error('extraction method %s not recognized' % method)
 
