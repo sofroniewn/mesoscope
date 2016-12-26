@@ -1,6 +1,7 @@
 import click
 from json import dumps
 from os import mkdir
+from shutil import copy
 from os.path import join, isfile, isdir, dirname, splitext, basename
 from glob import glob
 from thunder.images import fromtif, frombinary
@@ -51,5 +52,5 @@ def trace_command(input, output, regions, url, overwrite):
         status('copying metadata')
         for f in metafiles:
             copy(f, output)
-            
+
     success('traces complete')
