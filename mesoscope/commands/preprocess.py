@@ -67,7 +67,7 @@ def preprocess_command(input, output, bidi, amount, detrend, order, url, overwri
     else:
         error('extenstion %s not recognized' % ext)
 
-    metafiles = glob(join(input, '*.json'))
+    metafiles = glob(join(input, 'meta*.json'))
     if len(metafiles) > 0:
         status('copying metadata')
         for f in metafiles:

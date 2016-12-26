@@ -148,7 +148,7 @@ def summarize_command(input, output, localcorr, mean, movie, ds, dt, size, url, 
         else:
             warn('%s already exists and overwrite is false' % name)
 
-        metafiles = glob(join(input, '*.json'))
+        metafiles = glob(join(input, 'meta*.json'))
         if len(metafiles) > 0:
             status('copying metadata')
             for f in metafiles:
