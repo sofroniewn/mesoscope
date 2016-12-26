@@ -10,7 +10,7 @@ from thunder.images import fromtif, frombinary
 from skimage.io import imsave
 from .common import success, status, error, warn, setup_spark
 from ..bidi import correct
-from ..utils import detrend
+from ..utils import detrend as detrend_func
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
 @click.option('--url', is_flag=False, nargs=1, help='URL of the master node of a Spark cluster')
@@ -55,7 +55,7 @@ def preprocess_command(input, output, bidi, amount, detrend, order, url, overwri
 
     if detrend:
         status('starting detrending')
-        data = data.map_as_series(lambda x: detrend(x, order))
+        data = data.map_as_series(lambda x: detrend_func(x, order))
 
 
     if ext == 'tif':
