@@ -1,7 +1,7 @@
 import click
 from json import dumps
 from os import mkdir
-from shutil import copy
+from shutil import rmtree, copy
 from os.path import join, isfile, isdir, dirname, splitext, basename
 from glob import glob
 from thunder.images import fromtif, frombinary
