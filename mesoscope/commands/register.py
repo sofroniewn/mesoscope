@@ -45,11 +45,11 @@ def register_command(input, output, overwrite, url):
         return
 
     status('registering')
-    if method == normal:
+    if method == 'normal':
         newdata, shifts = register(data)
-    elif method == blocks:
+    elif method == 'blocks':
         newdata = register_blocks(data, size=(size, size))
-    elif method == piecewise:
+    elif method == 'piecewise':
         newdata = register_blocks_piecewise(data, size=(size, size))
     else:
         error('registration method %s not recognized' % method)
