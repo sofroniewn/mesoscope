@@ -5,7 +5,7 @@ from skimage.feature import blob_log
 from skimage.exposure import equalize_adapthist
 from single_cell_detect import watershed_edge as detect
 from extraction.model import ExtractionModel
-from .utils import detrend, norm
+from .utils import norm
 
 class CC(object):
     """
@@ -19,11 +19,8 @@ class CC(object):
         self.boundary = boundary
 
     def fit(self, images):
-        # detrend data to remove slow varying time components from each pixel
-        detrended = images.map_as_series(detrend)
-
         # compute local correlation of each pixel after bluring a cell bodies worth
-        localcorr = detrended.localcorr(self.diameter)
+        localcorr = images.localcorr(self.diameter)
 
         # detect blobs in local correlations corresponding to size of a cell
         centers = findcenters(localcorr[:,self.boundary[0]:-self.boundary[1]], diameter = self.diameter, clip_limit=self.clip_limit, threshold = self.theshold)
