@@ -5,7 +5,7 @@ from os.path import join, isfile, isdir, dirname, splitext, basename
 from glob import glob
 from thunder.images import fromtif, frombinary
 from extraction import load
-from .traces import dff
+from ..traces import dff
 from .common import success, status, error, warn, setup_spark
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
