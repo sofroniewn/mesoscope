@@ -46,22 +46,24 @@ def preprocess_command(input, output, bidi, amount, detrend, order, url, overwri
         return
 
     if bidi:
-        status('starting bidi correction')
+        status('start bidi correction')
         if len(data.shape) > 4:
             error('Data length %d currently not supported' % len(data.shape))
         else:
-            data, amount = correct(data, amount=amount)
+            newdata, amount = correct(data, amount=amount)
             status('shifted %s pixels' % amount)
+    else:
+        newdata = data
 
     if detrend:
-        status('starting detrending')
-        data = data.map_as_series(lambda x: detrend_func(x, order))
+        status('start detrending')
+        newdata = newdata.map_as_series(lambda x: detrend_func(x, order))
 
 
     if ext == 'tif':
-        data.totif(output, overwrite=overwrite)
+        newdata.totif(output, overwrite=overwrite)
     elif ext == 'bin':
-        data.tobinary(output, overwrite=overwrite)
+        newdata.tobinary(output, overwrite=overwrite)
     else:
         error('extenstion %s not recognized' % ext)
 
