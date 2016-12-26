@@ -59,9 +59,9 @@ def preprocess_command(input, output, bidi, amount, detrend, order, url, overwri
 
 
     if ext == 'tif':
-        newdata.totif(output, overwrite=overwrite)
+        data.totif(output, overwrite=overwrite)
     elif ext == 'bin':
-        newdata.tobinary(output, overwrite=overwrite)
+        data.tobinary(output, overwrite=overwrite)
     else:
         error('extenstion %s not recognized' % ext)
 
