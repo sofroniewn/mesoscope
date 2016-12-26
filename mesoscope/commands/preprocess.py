@@ -20,7 +20,7 @@ from ..utils import detrend
 @click.option('--detrend', is_flag=True, help='Flag for detrending')
 @click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
-@click.command('bidi', short_help='bidirectionaly correct images', options_metavar='<options>')
+@click.command('preprocess', short_help='preprocess images', options_metavar='<options>')
 def preprocess_command(input, output, bidi, amount, detrend, order, url, overwrite):
     output = input + '_preprocessed' if output is None else output
     if isdir(output) and not overwrite:
