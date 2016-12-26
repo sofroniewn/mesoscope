@@ -14,7 +14,7 @@ from .common import success, status, error, warn, setup_spark
 @click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('trace', short_help='extract traces from sources', options_metavar='<options>')
-def trace_command(input, output, extract, url, overwrite):
+def trace_command(input, output, regions, url, overwrite):
 
     output = input + '_traces' if output is None else output
 
@@ -25,7 +25,7 @@ def trace_command(input, output, extract, url, overwrite):
         rmtree(output)
         mkdir(output)
 
-    model = load(extract)
+    model = load(regions)
 
     engine = setup_spark(url)
     status('reading data from %s' % input)
