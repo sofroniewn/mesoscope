@@ -9,7 +9,7 @@ from os.path import join, isdir, isfile
 from thunder.images import fromtif, frombinary
 from skimage.io import imsave
 from .common import success, status, error, warn, setup_spark
-from ..bidi import correct
+from ..bidis import correct
 from ..utils import detrend as detrend_func
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
