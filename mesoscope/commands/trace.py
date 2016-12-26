@@ -46,4 +46,10 @@ def trace_command(input, output, regions, url, overwrite):
     traces = dff(data, model)
     traces.tobinary(output, overwrite=overwrite)
 
+    metafiles = glob(join(input, '*.json'))
+    if len(metafiles) > 0:
+        status('copying metadata')
+        for f in metafiles:
+            copy(f, output)
+            
     success('traces complete')

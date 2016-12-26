@@ -3,6 +3,7 @@ from extraction.model import ExtractionModel
 
 def neuropilModel(model, inner=3, outer=8, mask=True, shape=(512, 512)):
     regionsNeuropil = model.regions.outline(inner, outer)
+    regionsNeuropil = regionsNeuropil.crop(zeros(len(shape)), shape)
     if mask:
         mask = model.regions.mask(fill=[1, 1, 1], base=zeros(shape))[:,:,0]
         regionsNeuropil = regionsNeuropil.exclude(mask)
