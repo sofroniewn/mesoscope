@@ -9,16 +9,20 @@ from os.path import join, isdir, isfile
 from thunder.images import fromtif, frombinary
 from skimage.io import imsave
 from .common import success, status, error, warn, setup_spark
-from ..bidiCorrection import correct
+from ..bidi import correct
+from ..utils import detrend
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
 @click.option('--url', is_flag=False, nargs=1, help='URL of the master node of a Spark cluster')
 @click.option('--amount', nargs=1, default=None, type=int, help='Int bidirectional shift')
+@click.option('--bidi', is_flag=True, help='Flag for bidi conversion')
+@click.option('--order', nargs=1, default=5, type=int, help='Int order for detrending')
+@click.option('--detrend', is_flag=True, help='Flag for detrending')
 @click.argument('output', nargs=1, metavar='<output directory>', required=False, default=None)
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('bidi', short_help='bidirectionaly correct images', options_metavar='<options>')
-def bidi_command(input, output, amount, url, overwrite):
-    output = input + '_bidi' if output is None else output
+def preprocess_command(input, output, bidi, amount, detrend, order, url, overwrite):
+    output = input + '_preprocessed' if output is None else output
     if isdir(output) and not overwrite:
         error('directory already exists and overwrite is false')
         return
@@ -41,12 +45,18 @@ def bidi_command(input, output, amount, url, overwrite):
         error('no tif or binary files found in %s' % input)
         return
 
-    status('starting bidi correction')
-    if len(data.shape) > 4:
-        error('Data length %d currently not supported' % len(data.shape))
-    else:
-        newdata, amount = correct(data, amount=amount)
-        status('shifted %s pixels' % amount)
+    if bidi:
+        status('starting bidi correction')
+        if len(data.shape) > 4:
+            error('Data length %d currently not supported' % len(data.shape))
+        else:
+            data, amount = correct(data, amount=amount)
+            status('shifted %s pixels' % amount)
+
+    if detrend:
+        status('starting detrending')
+        data = data.map_as_series(lambda x: detrend(x, order))
+
 
     if ext == 'tif':
         newdata.totif(output, overwrite=overwrite)
@@ -61,4 +71,4 @@ def bidi_command(input, output, amount, url, overwrite):
         for f in metafiles:
             copy(f, output)
 
-    success('bidi complete')
+    success('preprocessing complete')

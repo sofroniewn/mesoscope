@@ -15,7 +15,6 @@ from skimage.io import imsave
 from .. import downsample
 from .common import success, status, error, warn, setup_spark
 from showit import image
-from ..utils import detrend
 
 @click.option('--overwrite', is_flag=True, help='Overwrite if directory already exists')
 @click.option('--url', is_flag=False, nargs=1, help='URL of the master node of a Spark cluster')
@@ -66,8 +65,7 @@ def summarize_command(input, output, localcorr, mean, movie, ds, dt, size, url, 
             status('summarizing-localcorr')
             if len(data.shape) == 4:
                 size = (1, size, size)
-            detrended = data.map_as_series(detrend)
-            lc = detrended.localcorr(size)
+            lc = data.localcorr(size)
             imsave(join(output, name), lc.astype('float32'), plugin='tifffile', photometric='minisblack')
         else:
             warn('%s already exists and overwrite is false' % name)
