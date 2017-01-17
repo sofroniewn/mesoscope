@@ -26,8 +26,8 @@ class CC(object):
         centers = findcenters(localcorr[:,self.boundary[0]:-self.boundary[1]], diameter = self.diameter, clip_limit=self.clip_limit, threshold = self.theshold)
         centers = array([[x[0], x[1]+self.boundary[0]] for x in centers])
 
-        # reshape the detredended data into blocks around each center coordinate
-        reshaped = detrended.map(lambda x: selectCenters(x, centers, self.diameter))
+        # reshape the data into blocks around each center coordinate
+        reshaped = images.map(lambda x: selectCenters(x, centers, self.diameter))
 
         # compute cross correlation with central pixels timeseries in each block
         stack = centercorr(reshaped, sigma_blur=self.sigma_blur)
