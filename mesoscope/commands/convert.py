@@ -5,7 +5,7 @@ from os import mkdir
 from numpy import inf
 from glob import glob
 from shutil import rmtree
-from os.path import join, isdir
+from os.path import join, isdir, abspath
 from .common import success, status, error, warn, setup_spark
 from .. import load, convert
 
@@ -16,7 +16,8 @@ from .. import load, convert
 @click.option('--ext', nargs=1, default='tif')
 @click.command('convert', short_help='process raw data by converting into images', options_metavar='<options>')
 def convert_command(input, output, ext, url, overwrite):
-    output = input + '_converted' if output is None else output
+    input = abspath(input)
+    output = input + '_converted' if output is None else abspath(output)
     if isdir(output) and not overwrite:
         error('directory already exists and overwrite is false')
         return

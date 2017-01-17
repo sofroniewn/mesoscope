@@ -5,7 +5,7 @@ from os import mkdir
 from numpy import inf, percentile
 from glob import glob
 from shutil import rmtree, copy
-from os.path import join, isdir, isfile
+from os.path import join, isdir, isfile, abspath
 from thunder.images import fromtif, frombinary
 from skimage.io import imsave
 from .common import success, status, error, warn, setup_spark
@@ -22,7 +22,8 @@ from ..utils import detrend as detrend_func
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('preprocess', short_help='preprocess images', options_metavar='<options>')
 def preprocess_command(input, output, bidi, amount, detrend, order, url, overwrite):
-    output = input + '_preprocessed' if output is None else output
+    input = abspath(input)
+    output = input + '_preprocessed' if output is None else abspath(output)
     if isdir(output) and not overwrite:
         error('directory already exists and overwrite is false')
         return

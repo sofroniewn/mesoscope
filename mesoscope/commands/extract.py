@@ -1,7 +1,7 @@
 import click
 from json import dumps
 from os import mkdir
-from os.path import join, isfile, isdir, dirname, splitext, basename
+from os.path import join, isfile, isdir, dirname, splitext, basename, abspath
 from glob import glob
 from thunder.images import fromtif, frombinary
 from extraction import load, NMF
@@ -17,8 +17,8 @@ from ..CC import CC
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('extract', short_help='performe source extraction', options_metavar='<options>')
 def extract_command(input, output, diameter, method, url, overwrite):
-
-    output = input + '_extracted' if output is None else output
+    input = abspath(input)
+    output = input + '_extracted' if output is None else abspath(output)
 
     if isfile(join(output, 'regions-' + method + '.json')) and not overwrite:
         error('file already exists and overwrite is false')

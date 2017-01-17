@@ -1,7 +1,7 @@
 import click
 from json import dumps
 from os import mkdir
-from os.path import join, isfile, isdir, dirname, splitext, basename
+from os.path import join, isfile, isdir, dirname, splitext, basename, abspath
 from skimage.io import imsave, imread
 from showit import image
 from extraction import load
@@ -18,9 +18,10 @@ from ..models import overlay
 @click.command('regions', short_help='analyze regions', options_metavar='<options>')
 def regions_command(input, output, image, compare, threshold, overwrite):
     status('reading data from %s' % input)
+    input = abspath(input)
     model = load(input)
 
-    output = dirname(input) if output is None else output
+    output = dirname(input) if output is None else abspath(output)
     if not isdir(output) and not output == '':
         mkdir(output)
 

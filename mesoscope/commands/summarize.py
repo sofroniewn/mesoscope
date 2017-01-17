@@ -9,7 +9,7 @@ from os import mkdir
 from numpy import inf, percentile
 from glob import glob
 from shutil import rmtree, copy
-from os.path import join, isdir, isfile
+from os.path import join, isdir, isfile, abspath
 from thunder.images import fromtif, frombinary
 from skimage.io import imsave
 from .. import downsample
@@ -28,7 +28,8 @@ from showit import image
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('summarize', short_help='create summary images', options_metavar='<options>')
 def summarize_command(input, output, localcorr, mean, movie, ds, dt, size, url, overwrite):
-    output = input + '_summary' if output is None else output
+    input = abspath(input)
+    output = input + '_summary' if output is None else abspath(output)
 
     engine = setup_spark(url)
     status('reading data from %s' % input)

@@ -5,7 +5,7 @@ from os import mkdir
 from numpy import inf, percentile
 from glob import glob
 from shutil import rmtree, copy
-from os.path import join, isdir, isfile
+from os.path import join, isdir, isfile, abspath
 from pandas import DataFrame
 from thunder.images import fromtif, frombinary
 from ..registrations import register, register_blocks, register_blocks_piecewise
@@ -19,8 +19,8 @@ from .common import success, status, error, warn, setup_spark
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('register', short_help='register input directory', options_metavar='<options>')
 def register_command(input, output, overwrite, url, method, size):
-
-    output = input + '_registered' if output is None else output
+    input = abspath(input)
+    output = input + '_registered' if output is None else abspath(output)
 
     if isdir(output) and not overwrite:
         error('directory already exists and overwrite is false')

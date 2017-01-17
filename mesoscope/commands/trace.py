@@ -2,7 +2,7 @@ import click
 from json import dumps
 from os import mkdir
 from shutil import rmtree, copy
-from os.path import join, isfile, isdir, dirname, splitext, basename
+from os.path import join, isfile, isdir, dirname, splitext, basename, abspath
 from glob import glob
 from thunder.images import fromtif, frombinary
 from extraction import load
@@ -16,8 +16,8 @@ from .common import success, status, error, warn, setup_spark
 @click.argument('input', nargs=1, metavar='<input directory>', required=True)
 @click.command('trace', short_help='extract traces from sources', options_metavar='<options>')
 def trace_command(input, output, regions, url, overwrite):
-
-    output = input + '_traces' if output is None else output
+    input = abspath(input)
+    output = input + '_traces' if output is None else abspath(output)
 
     if isdir(output) and not overwrite:
         error('directory already exists and overwrite is false')
